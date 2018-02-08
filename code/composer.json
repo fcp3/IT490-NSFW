@@ -1,0 +1,5 @@
+{
+    "require": {
+        "danrovito/pokephp": "^1.3"
+    }
+}
