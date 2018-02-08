@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sample login</title>
+  <meta charset="utf-8">
+  <meta name="veiwport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="login">
+    <h2>SIGN IN</h2>
+    <form action="/testRabbitMQClient.php" method="post">
+      <label for="username">Username</label>
+      <input name="username" type="text">
+      <label for="password">Password</label>
+      <input name="password" type="text">
+      <div class="buttons">
+        <input type="submit" class ="login" value="Login">
+      </div>
+    </form>
+  </div>
+
+  <br>
+
+  <div class="register">
+    <h2>REGISTER</h2>
+    <form action="/testRabbitMQClient.php" method="post">
+      <label for="username">Username</label>
+      <input name="username" type="text">
+      <label for="email">Email</label>
+      <input name="email" type="text">
+      <label for="password">Password</label>
+      <input name="password" type="text">
+      <div class="buttons">
+        <input type="submit" class="register" value="Register">
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
