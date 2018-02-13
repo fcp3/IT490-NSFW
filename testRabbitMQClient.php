@@ -1,14 +1,11 @@
 <?php
-//MAKE SYMLINK TO amqp.ini IN /etc/php/7.0/apache2/conf.d
-//AMQPConnections WILL NOT WORK WITHOUT IT
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 $user = $_POST["username"];
 $pass = $_POST["password"];
-
-echo $user.$pass;
+$email = $_POST["email"];
 
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 if (isset($argv[1]))
@@ -21,18 +18,18 @@ else
 }
 
 $request = array();
-$request['type'] = "Login";
+if(isset($_POST["login"])) {
+	$request['type'] = "Login";
+}
+else {
+	$request['type'] = "Register";
+}
 $request['username'] = $user;
 $request['password'] = $pass;
+$request['email'] = $email;
 $request['message'] = $msg;
-
-echo json_encode($request);
-
-
 $response = $client->send_request($request);
-
 //$response = $client->publish($request);
-
 
 echo "client received response: ".PHP_EOL;
 print_r($response);
