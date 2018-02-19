@@ -29,24 +29,53 @@ function doLogin($username,$password) {
   }
 }
 
+function doRegister($username, $password, $email) {
+	$conn = mysqli_connect("localhost", "root", "1234", "testdb");
+
+	if(!$conn) {
+		die("ERROR: Could not connect:" . mysqli_connect_error());
+	} else {
+		echo "SUCCESS: Connected to db";	
+	}
+
+	$query = "SELECT * from usertable where username = '$username' AND password = '$password'";
+	$result = mysqli_query($conn, $query);
+	$count = mysqli_num_rows($result);
+
+	if($count == 0) {
+		$registerQuery = "INSERT into usertable (username, password, email) VALUES('$username', '$password', '$email')";
+		$register = mysqli_query($conn, $registerQuery);
+		echo true;	
+	} else {
+		return false;
+	}
+
+	return false;
+}
+
 function requestProcessor($request)
 {
 
-  echo "received request".PHP_EOL;
-  var_dump($request);
-  if(!isset($request['type']))
-  {
-    return "ERROR: unsupported message type";
-  }
-  switch ($request['type'])
-  {
-    case "Login":
-      print_r($request);
-      return doLogin($request['username'],$request['password']);
-    case "validate_session":
-      return doValidate($request['sessionId']);
-  }
-  return array("returnCode" => '0', 'message'=>$result);
+  	echo "received request".PHP_EOL;
+  	var_dump($request);
+  	if(!isset($request['type']))
+  	{
+    	return "ERROR: unsupported message type";
+  	}
+  	switch ($request['type'])
+  	{
+    	case "Login":
+      		print_r($request);
+      		return doLogin($request['username'],$request['password']);
+			
+    	case "validate_session":
+      		return doValidate($request['sessionId']);
+
+		case "Register":
+			print_r($request);
+			return doRegister($request['username'], $request['password'], $request['email']);
+  	}
+  	return array("returnCode" => '0', 'message'=>$result);
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
