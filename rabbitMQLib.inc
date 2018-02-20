@@ -189,7 +189,7 @@ class rabbitMQClient
 
 	function send_request($message)
 	{
-		echo "IN SEND REQUEST";
+		//echo "IN SEND REQUEST";
 		$uid = uniqid();
 
 		$json_message = json_encode($message);
@@ -201,14 +201,14 @@ class rabbitMQClient
       $params['login'] = $this->USER;
       $params['password'] = $this->PASSWORD;
       $params['vhost'] = $this->VHOST;
-			echo var_dump($params);
+			//echo var_dump($params);
 			$conn = new AMQPConnection($params);
-			echo "New AMQPConnection Instance created";
+			//echo "New AMQPConnection Instance created";
 			try{ $conn->connect();
 			} catch (Exception $e) {
 				echo "Caught exception: " . $e . PHP_EOL;		
 			}
-			echo "AMQP Connection successful";
+			//echo "AMQP Connection successful";
 			$channel = new AMQPChannel($conn);
 
 			$exchange = new AMQPExchange($channel);
@@ -248,7 +248,7 @@ class rabbitMQClient
 	 */
 	function publish($message)
 	{
-		echo "IN PUBLISH";
+		//echo "IN PUBLISH";
 		$json_message = json_encode($message);
 		try
 		{

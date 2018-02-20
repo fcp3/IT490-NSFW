@@ -24,11 +24,11 @@ function doLogin($username,$password) {
   $pass = $array["password"];
   if($count == 1) {
     echo "VALID USER" . PHP_EOL;
-    return "VALID";
+    return true;
   }
   else {
     echo "INVALID CREDENTIALS" . PHP_EOL;
-    return "INVALID";
+    return false;
   }
 }
 
