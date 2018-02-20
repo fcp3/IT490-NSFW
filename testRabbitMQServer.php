@@ -27,7 +27,7 @@ function requestProcessor($request)
   echo "received request".PHP_EOL;
 
   /* login code */
-  include "config.php";
+  //include "config.php";
 
   /*
   $username = $request['username'];
@@ -57,23 +57,24 @@ function requestProcessor($request)
   } */
 
 
-  var_dump($request);
-  if(!isset($request['type']))
-  {
-    return "ERROR: unsupported message type";
-  }
-  switch ($request['type'])
-  {
-    case "Login":
-	echo "doing login" . PHP_EOL;      
-	return doLogin($request['username'],$request['password']);
-    case "validate_session":
-      return doValidate($request['sessionId']);
-  }
-  return array("returnCode" => '0', 'message'=> "didn't find a proper case");
+  //var_dump($request);
+  //if(!isset($request['type']))
+  //{
+    //return "ERROR: unsupported message type";
+  //}
+  //switch ($request['type'])
+  //{
+    //case "Login":
+		//echo "doing login" . PHP_EOL;      
+		//return doLogin($request['username'],$request['password']);
+    //case "validate_session":
+      //return doValidate($request['sessionId']);
+  //}
+  //return array("returnCode" => '0', 'message'=> "didn't find a proper case");
+	echo $request;
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+$server = new rabbitMQServer("testRabbitMQ.ini","logServer");
 
 $server->process_requests('requestProcessor');
 exit();
