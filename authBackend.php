@@ -48,17 +48,17 @@ function doRegister($username, $password, $email) {
 	if($count == 0) {
 		$registerQuery = "INSERT into TestUsers (username, password, email) VALUES('$username', '$password', '$email')";
 		$register = mysqli_query($conn, $registerQuery);
-		return "USER CREATED!";	
+		return true;	
 	} elseif ($count == 1) {
-		return "USER ALREADY EXISTS!";
+		return false;
 	} else {
-		return "ERROR CREATING USER";
+		return false;
 	}
 }
 
 function requestProcessor($request)
 {
-	$response = "";
+	$response = array();
   	echo "received request".PHP_EOL;
   	var_dump($request);
   	if(!isset($request['type']))
@@ -69,14 +69,16 @@ function requestProcessor($request)
   	{
     	case "Login":
       		print_r($request);
-      		$response = doLogin($request['username'],$request['password']);
+		$response["type"] = "login";
+      		$response["result"] = doLogin($request['username'],$request['password']);
 		break;
     	case "validate_session":
       		$response = doValidate($request['sessionId']);
 		break;
 	case "Register":
-		print_r($request);
-		$response = doRegister($request['username'], $request['password'], $request['message']);
+		//print_r($request);
+		$response["type"] = "register";
+		$response["result"] = doRegister($request['username'], $request['password'], $request['message']);
 		break;
   	}
 	echo var_dump($response);

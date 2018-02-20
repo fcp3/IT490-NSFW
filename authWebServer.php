@@ -29,13 +29,31 @@ $response = $client->send_request($request);
 //echo $response["message"] . PHP_EOL;
 //echo "\n\n";
 
-if ($response["message"]) {
-	$_SESSION["userID"] = $request["username"];
-	$_SESSION["password"] = $request["password"];
-	header("Location: /samplehome.php");
-} else {
-	echo "Login error!";
+switch ($response["message"]["type"]) {
+	case "login":
+		if ($response["message"]["result"]) {
+			$_SESSION["userID"] = $request["username"];
+			$_SESSION["password"] = $request["password"];
+			header("Location: /samplehome.php");
+		} else {
+			echo "Login error!" . PHP_EOL;
+		}
+		break;
+	case "register":
+		if ($response["message"]["result"]) {
+			$_SESSION["userID"] = $request["username"];
+			$_SESSION["password"] = $request["password"];
+			header("Location: /sampleregistered.php");
+		} else {
+			echo "Registration error!" . PHP_EOL;
+		}		
+		break;
+	default:
+		echo "REQUEST ERROR!" . PHP_EOL;
 }
+
+
+
 
 //echo $argv[0]." END".PHP_EOL;
 
