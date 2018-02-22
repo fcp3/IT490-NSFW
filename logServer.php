@@ -10,9 +10,8 @@ function logProcessor($log)
 {
  	echo "received log".PHP_EOL; 
 	echo $log;
-	/*
-	do stuff with logs here
-	*/
+	file_put_contents("/var/log/local490/masterLog.txt",$log.PHP_EOL,FILE_USE_INCLUDE_PATH | FILE_APPEND);
+
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","logServer");
