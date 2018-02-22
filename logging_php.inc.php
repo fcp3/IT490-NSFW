@@ -16,7 +16,6 @@ file_put_contents("/var/log/local490/log.txt",$host_stamp,FILE_USE_INCLUDE_PATH 
 
 
 $response = $client->publish($host_stamp);
-echo $argv[0]." END".PHP_EOL;
 
 
 }
