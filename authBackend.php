@@ -4,12 +4,14 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 require_once('creds.inc');
+require_once('logging_php.inc.php');
 
 function doLogin($username,$password) {
   //connecting to the sample database
-  $conn = mysqli_connect("localhost", "root", "1234", "testdb");
+  $conn = mysqli_connect("localhost", "root", "123", "testdb");
 
   if(!$conn) {
+    logger( __FILE__ . " : " . __LINE__ . " :error: " . mysqli_connect_error());
     die("ERROR: Could not connect." . mysqli_connect_error());
   }
   else {

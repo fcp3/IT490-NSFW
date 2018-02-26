@@ -15,52 +15,55 @@ $api = new PokeApi;
 //offset variable to increment calls to PokeAPI (scrolls through paginated responses)
 $offset = 0;
 
-function pokeTypes() {}
-function pokeSprite() {}
-function pokeStats() {}
-function pokeGames() {}
-function pokeMoves() {}
+function pokeTypes($pokemon) {}
+function pokeSprite($pokemon) {}
+function pokeStats($pokemon) {}
+function pokeGames($pokemon) {}
+function pokeMoves($pokemon) {}
 
-while($offset<140){
-	print("Pokemon "."$offset".PHP_EOL);
+while($offset<1){
+	//print("Pokemon "."$offset".PHP_EOL);
 	//makes a call to pokeAPI for 20 pokemon
-	$pokes = json_decode($api->resourceList('pokemon', '20', $offset));
+	$pokes = json_decode($api->resourceList('pokemon', '1', $offset));
 	//parsing through each pokemon the above line above returns
 	foreach($pokes->results as $poke){
 		$name = $poke->name;
 		$typetxt = "";
 		
 		$pokedata = json_decode($api->pokemon($name));
+		echo "<div class=\"row\"><div class=\"column\" style=\"width:33%;float:left;\">";
+		print("<br>------POKEMON: " . $name . "-------</br>");
+
+		echo "<br>--------SPRITE--------</br>\n";
+		echo "<br><img src=\"" . $pokedata->sprites->front_default . "\" ></br>";
 		
-		print("------POKEMON: " . $name . "-------" . PHP_EOL);
-		
-		echo "--------TYPES--------\n";
+		echo "<br>--------TYPES--------</br>\n";
 		foreach($pokedata->types as $type){
-			echo $type->type->name . PHP_EOL;
+			echo "<br>" . $type->type->name . "</br>";
 
 			$typeData = json_decode($api->pokemonType($type->type->name));
 			foreach($typeData->damage_relations->double_damage_to as $strength) {
-				echo "STRONG TO: " . $strength->name . PHP_EOL;
+				echo "<br>STRONG TO: " . $strength->name . "</br>";
 			}
 			foreach($typeData->damage_relations->double_damage_from as $weakness) {
-				echo "WEAK TO: " . $weakness->name . PHP_EOL;
+				echo "<br>WEAK TO: " . $weakness->name . "</br>";
 			}
 		}
-		
-		echo "--------SPRITE--------\n";
-		echo $pokedata->sprites->front_default . PHP_EOL;
 
-		echo "--------STATS--------\n";		
+		echo "<br>--------STATS--------</br>\n";		
 		foreach($pokedata->stats as $pokestat) {
-			echo $pokestat->stat->name . " " . $pokestat->base_stat . PHP_EOL;
+			echo "<br>" . $pokestat->stat->name . " " . $pokestat->base_stat . "</br>";
 		}
-
-		echo "--------GAMES--------\n";
+		echo "</div>";
+		echo "<div class=\"column\" style=\"width:33%;float:left;\">";
+		echo "<br>--------GAMES--------</br>\n";
 		foreach($pokedata->game_indices as $game) {
-			echo $game->version->name . PHP_EOL; 		
+			echo "<br>" . $game->version->name . "</br>"; 		
 		}
-
-		echo "--------MOVES LEARNED BY TM/HM--------\n";
+		echo "</div>";
+		echo "<div class=\"column\" style=\"width:33%;float:left;\"";
+		echo "<table>";
+		echo "<br>--------TM/HM & GAME--------\n";
 		
 		foreach($pokedata->moves as $move) {
 			$gen1flag = false;
@@ -71,14 +74,14 @@ while($offset<140){
 						case 'red-blue':
 						case 'yellow':
 							if(!$gen1flag){
-								echo $move->move->name . " is a machine in: " . $version->version_group->name . " (GEN 1)". PHP_EOL;
+								echo "<br>" . $move->move->name . " in game: " . $version->version_group->name . "</br>";
 								$gen1flag = true;
 							}
 							break;
 						case 'gold-silver':
 						case 'crystal':
 							if(!$gen2flag){
-								echo $move->move->name . " is a machine in: " . $version->version_group->name . " (GEN 2) " . PHP_EOL;
+								echo "<br>" . $move->move->name . " in game: " . $version->version_group->name . "</br>";
 								$gen2flag = true;
 							}
 							break;
@@ -88,9 +91,10 @@ while($offset<140){
 				}			
 			}		
 		}
+	echo "</div></div>";
 	echo "\n\n\n\n";
 	}
-	$offset += 20;
+	$offset += 1;
 }
 
 
