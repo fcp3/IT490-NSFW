@@ -73,7 +73,11 @@ if(!$conn) {
 $offset = 0;
 $pokesPerPage = 20;
 $pokeID = 0;
-while($offset<180) {
+while($offset<260) {
+	if($pokeID > 251) {
+		echo "SKIPPING POKEMON " . $pokeID . PHP_EOL;
+		continue;	
+	}
 	$pokes = json_decode($api->resourceList('pokemon', $pokesPerPage, $offset));
 	foreach($pokes->results as $poke){
 		echo"========================================\n";
@@ -82,20 +86,25 @@ while($offset<180) {
 		$pokeID += 1;
 		echo $id . PHP_EOL;
 
-		$gameID = "N/A";
+		if($pokeID < 152) {
+			$gameID = "red-blue-yellow";
+		} else {
+			$gameID = "gold-silver-crystal";
+		}
+		
 
 		$name = $poke->name;
-		echo $name . PHP_EOL;
+		//echo $name . PHP_EOL;
 		$pokemon = json_decode($api->pokemon($poke->name));
 
 		$sprite = pokeSprite($pokemon);
-		echo $sprite . PHP_EOL;
+		//echo $sprite . PHP_EOL;
 
 		$types = pokeTypes($pokemon);
-		print_r($types);
+		//print_r($types);
 
 		$stats = pokeStats($pokemon);
-		print_r($stats);
+		//print_r($stats);
 
 
 		echo(PHP_EOL);
@@ -106,6 +115,7 @@ while($offset<180) {
 		if($insert = mysqli_prepare($conn, "INSERT INTO Pokemon (pokedexID, gameID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 			mysqli_stmt_bind_param($insert, "issssiiiiiis", $id, $gameID, $name, $types["type1"], $types["type2"], $stats["attack"], $stats["defense"], $stats["sp-att"], $stats["sp-def"], $stats["speed"], $stats["hp"], $sprite);
 			mysqli_stmt_execute($insert);
+			echo "INSERTED " . $name . " INTO POKEMON TABLE" . PHP_EOL;
 			mysqli_stmt_close($insert);
 		}
 	}
