@@ -47,9 +47,10 @@
             <input type="password" placeholder="Password" name="psw" id="loginpass" required>
             <br>
             <br>
-            <button class="logbutton" style="vertical-align:middle">
+            <button class="logbutton" id="logbutton" style="vertical-align:middle">
               <span>Sign In</span>
             </button>
+            <label><input type="checkbox" id="checkbox">Remember me</label>
         </div>
       </div>
       <a href="#about">About</a>
@@ -81,15 +82,15 @@
     <form action="">
       <div align ="center" class ="registercontainer">
         <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
+        <input type="text" placeholder="Enter Email" name="email" id="regemail" required>
         <br>
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" id="pass1" required>
+        <input type="password" placeholder="Enter Password" name="psw" id="regpass1" required>
         <br>
         <label for="psw-repeat"><b>Repeat Password</b></label>
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="pass2" onkeyup="checkPass(); return false;" required>
+        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="regpass2" onkeyup="checkPass(); return false;" required>
         <br>
-        <button class="regbutton" style="vertical-align:middle">
+        <button class="regbutton" id="regbutton" style="vertical-align:middle">
           <span>Register</span>
         </button>
       </div>
