@@ -19,16 +19,18 @@ else
 
 $request = array();
 $request['type'] = $_POST["type"];
-$request['username'] = $_POST["username"];
-$request['password'] = $_POST["password"];
+$request['username'] = $_POST["email"];
+$request['password'] = $_POST["psw"];
 $request['message'] = $_POST["email"];
+echo var_dump($request);
 $response = $client->send_request($request);
+echo var_dump($response);
 //$response = $client->publish($request);
 
 //echo "client received response: ".PHP_EOL;
 //echo $response["message"] . PHP_EOL;
 //echo "\n\n";
-
+echo var_dump($response);
 switch ($response["message"]["type"]) {
 	case "login":
 		if ($response["message"]["result"]) {

@@ -1,3 +1,4 @@
+
 #!/usr/bin/php
 <?php
 require_once('path.inc');
@@ -72,9 +73,10 @@ function requestProcessor($request)
   //}
   //return array("returnCode" => '0', 'message'=> "didn't find a proper case");
 	echo $request;
+	return "MESSAGE FOUND";
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","logServer");
+$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 $server->process_requests('requestProcessor');
 exit();

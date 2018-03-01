@@ -8,7 +8,7 @@ require_once('logging_php.inc.php');
 
 function doLogin($username,$password) {
   //connecting to the sample database
-  $conn = mysqli_connect("localhost", "root", "123", "testdb");
+  $conn = mysqli_connect("localhost", "root", "1234", "testdb");
 
   if(!$conn) {
     logger( __FILE__ . " : " . __LINE__ . " :error: " . mysqli_connect_error());
@@ -69,7 +69,7 @@ function requestProcessor($request)
   	}
   	switch ($request['type'])
   	{
-    	case "Login":
+    	case "login":
       		print_r($request);
 		$response["type"] = "login";
       		$response["result"] = doLogin($request['username'],$request['password']);
@@ -77,14 +77,18 @@ function requestProcessor($request)
     	case "validate_session":
       		$response = doValidate($request['sessionId']);
 		break;
-	case "Register":
+	case "register":
 		//print_r($request);
 		$response["type"] = "register";
 		$response["result"] = doRegister($request['username'], $request['password'], $request['message']);
 		break;
   	}
 	echo var_dump($response);
-  	return array("returnCode" => '0', 'message'=>$response);
+	$result = array();
+	$result["returnCode"] = 0;
+	$result["message"] = $response;
+	echo var_dump($result);
+  	return $result;
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");

@@ -9,7 +9,7 @@ require_once('rabbitMQLib.inc');
 //$email = $_POST["email"];
 //$type = $_POST["type"];
 
-$client = new rabbitMQClient("testRabbitMQ.ini","logServer");
+$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 if (isset($argv[1]))
 {
   $msg = $argv[1];
@@ -34,7 +34,7 @@ else
 $request = "Testing publish message";
 //echo var_dump($request);
 //$response = $client->send_request($request);
-$response = $client->publish($request);
+$response = $client->send_request($request);
 
 //echo "client received response: ".PHP_EOL;
 //print_r($response);
@@ -43,3 +43,4 @@ $response = $client->publish($request);
 echo $argv[0]." END".PHP_EOL;
 
 ?>
+

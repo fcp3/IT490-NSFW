@@ -1,45 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Sample login</title>
+  <title>PokeTeams</title>
   <meta charset="utf-8">
-  <meta name="veiwport" content="width=device-width, initial-scale=1">
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+  <!
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  ->
   <link rel="stylesheet" href="styles.css">
+  <script>
+    function checkPass() {
+      var pass1 = document.getElementById("pass1");
+      var pass2 = document.getElementById("pass2");
+      var goodcolor = "#66cc66";
+      var badcolor = "#ff6666";
+
+      if(pass1.value == pass2.value) {
+        pass2.style.backgroundColor = goodcolor;
+        message.style.color = goodcolor;
+      }
+      else {
+        pass2.style.backgroundColor = badcolor;
+        message.style.background = badcolor;
+      }
+    }
+  </script>
 </head>
 
 <body>
-  <div class="login">
-    <h2>SIGN IN</h2>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="logincontainer">
+      <div class="dropdown">
+        <button class="dropbtn">Login
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <form action="/authWebServer.php" method="post">
+            <input type="text" placeholder="Email address" name="email" id="loginemail" required>
+            <br>
+            <br>
+            <input type="password" placeholder="Password" name="psw" id="loginpass" required>
+            <br>
+            <br>
+            <button name="type" type="submit" class="logbutton" style="vertical-align:middle" value="login">
+              <span>Sign In</span>
+            </button>
+		  </form>
+        </div>
+      </div>
+      <a href="#about">About</a>
+    </div>
+  </div>
+
+  <section id="home">
+    <div class="header">
+      <br><br>
+      <h1>PokeTeams</h1>
+      <h2>Plan, strategize, and win your Pokemon battles!</h2>
+      <h4>An IT490 Project - Team NSFW</h4>
+    </div>
+    <div class="header2">
+      <br><br><br>
+      <p>Create teams for any Pokemon games. Save your teams and share them
+        with your friends!
+      </p>
+      <p>Check what your team is strong/weak against with our
+      team tips.
+      </p>
+    </div>
+  </section>
+
+  <div class ="register">
+    <h1>Join Today</h1>
+    <h4>It's free and always will be!</h4>
+    <br><br>
     <form action="/authWebServer.php" method="post">
-      <label for="username">Username</label>
-      <input name="username" type="text">
-      <label for="password">Password</label>
-      <input name="password" type="text">
-      <div class="buttons">
-        <input name="type" type="submit" class ="login" value="Login">
+      <div align ="center" class ="registercontainer">
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" id="email" >
+        <br>
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" id="pass1" >
+        <br>
+        <label for="psw-repeat"><b>Repeat Password</b></label>
+        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="pass2" onkeyup="checkPass(); return false;" >
+        <br>
+        <button type="submit" name="type" class="regbutton" style="vertical-align:middle" value="register">
+          <span>Register</span>
+        </button>
       </div>
     </form>
   </div>
 
-  <br>
-
-  <div class="register">
-    <h2>REGISTER</h2>
-    <form action="/authWebServer.php" method="post">
-      <label for="username">Username</label>
-      <input name="username" type="text">
-      <label for="email">Email</label>
-      <input name="email" type="text">
-      <label for="password">Password</label>
-      <input name="password" type="text">
-      <div class="buttons">
-        <input name="type" type="submit" class="register" value="Register">
-      </div>
-    </form>
-  </div>
 </body>
 </html>
-
