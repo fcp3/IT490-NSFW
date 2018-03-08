@@ -11,9 +11,9 @@ $client = new rabbitMQClient("../testRabbitMQ.ini","queryServer");
 
 //$request = "This is a test request over queryqueue\n";
 
-$request["type"] = "pokeSearch";
+//$request["type"] = "pokeSearch";
 //$request["type"] = "saveTeam";
-//$request["type"] = "userTeams";
+$request["type"] = "userTeams";
 //$request["type"] = "userCaught";
 //$request["type"] = "addCaught";
 //$request["type"] = "editPoke";
@@ -30,7 +30,7 @@ switch($request["type"]) {
 
 		$request["gameID"] = "red-blue-yellow";
 		//$request["name"] = "bulbasaur";
-		$request["pokeID"] = 1;
+		//$request["pokeID"] = 1;
 		//$request["type1"] = "grass";
 		//$request["type2"] = "poison";
 		//returns json array of pokemon searched for, use json_decode to parse through array
@@ -87,12 +87,12 @@ switch($request["type"]) {
 			- array of pokemonIDs
 		*/
 
-		/* //SAVING Test Team 1 TO user with accountID 1, gen1, with pokemon 1, 2, 3, 4, 5, 6
+		/* //SAVING Test Team 1 TO user with accountID 1, gen1, with pokemon 1, 2, 3, 4, 5, 6 */
 		$request["accountID"] = 1;
-		$request["teamName"] = "Test Team 1";
+		$request["teamName"] = "Test Team 2";
 		$request["gameID"] = "red-blue-yellow";
-		$request["pokemonIDs"] = array(1, 2, 3, 4, 5, 6);
-		*/
+		$request["pokemonIDs"] = array(101, 102, 103, 104, 105, 106);
+		/**/
 
 		//will return true if team inserted and false if error
 		break;
@@ -134,7 +134,27 @@ switch($request["type"]) {
 }
 
 $response = $client->send_request($request);
-echo $response;
+$resultArr = json_decode($response);
+foreach($resultArr as $res) {
+	echo var_dump($res);
+	echo $res->team . PHP_EOL;
+	foreach($res->pokemon as $pokeData) {
+		echo var_dump($pokeData);
+		echo $pokeData->name;
+		echo $pokeData->level;
+		echo $pokeData->type1;
+		echo $pokeData->type2;
+		echo $pokeData->sprite;
+		echo $pokeData->hp;
+		echo $pokeData->speed;
+		echo $pokeData->att;
+		echo $pokeData->spAtt;
+		echo $pokeData->def;
+		echo $pokeData->spDef;
+		echo PHP_EOL;
+	}
+
+}
 
 /*
 HOW TO PARSE THROUGH userTeam json

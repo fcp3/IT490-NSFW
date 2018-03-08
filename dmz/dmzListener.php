@@ -40,7 +40,7 @@ function pokeSearch($request, $conn) {
 					$query->bind_param("sssss", $pokeGame, $pokeType1, $pokeType2, $pokeType1, $pokeType2);
 					$query->execute();
 					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
-					
+
 				} else {
 					echo "ERROR RUNNING POKESEARCH BY TYPE\n";
 				}
@@ -96,9 +96,11 @@ function userTeams($request, $conn) {
 					
 					$pokemon["team"] = $data["Name"];
 					if($pokemonID < 1000) {
-						$poke["game"] = $data["gameID"];
-						$poke["pokeID"] = $data["pokemon_ID"]; 
+						$poke["gameID"] = $data["gameID"];
+						$poke["pokeID"] = $data["pokemon_ID"];
+						//echo "POKE DATA SEARCHING FOR TEAM: " . var_dump($poke) . PHP_EOL; 
 						$pokeData = json_decode(pokeSearch($poke, $conn));
+						//echo "POKE DATA FOUND FROM pokeSearch: " . var_dump($pokeData) . PHP_EOL;
 						$pokemon["pokemon"] = $pokeData;
 						array_push($teams, $pokemon);
 					} elseif ($pokemonID >= 1000) {
@@ -107,7 +109,7 @@ function userTeams($request, $conn) {
 					
 				}
 				$result = json_encode($teams);
-				echo "RESULT OF userTeams: " . $result . PHP_EOL;
+				echo "RESULT OF userTeams: " . var_dump($result) . PHP_EOL;
 			}
 			$query->close();
 			return $result;
