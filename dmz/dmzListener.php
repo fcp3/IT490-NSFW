@@ -34,8 +34,8 @@ function requestProcessor($request) {
 					$query->bind_result($name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
 
 					while($query->fetch()) {
-						echo var_dump($name);
-						echo var_dump($t1);
+						//echo var_dump($name);
+						//echo var_dump($t1);
 						$pokemon = array();
 						$pokemon["name"] = htmlspecialchars($name);
 						$pokemon["type1"] = htmlspecialchars($t1);
