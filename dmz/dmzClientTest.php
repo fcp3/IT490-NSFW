@@ -14,8 +14,9 @@ $client = new rabbitMQClient("../testRabbitMQ.ini","queryServer");
 //$request["type"] = "pokeSearch";
 //$request["type"] = "saveTeam";
 //$request["type"] = "userTeams";
-$request["type"] = "userCaught";
+//$request["type"] = "userCaught";
 //$request["type"] = "addCaught";
+$request["type"] = "editPoke";
 //should be using:
 //$request["type"] = $_POST["query"];
 
@@ -58,14 +59,17 @@ switch($request["type"]) {
 			- gameID
 			- pokemonID
 			- level & stats
+		*/
+
+		/* //Editing caught pokemon with id 1001 with zeroed stats
 		$request["pokemonID"] = 1001;
-		$request["level"] = 100;
-		$request["hp"] = 255;
-		$request["speed"] = 255;
-		$request["att"] = 255;
-		$request["spAtt"] = 255;
-		$request["def"] = 255;
-		$request["spDef"] = 255;
+		$request["level"] = 0;
+		$request["hp"] = 0;
+		$request["speed"] = 0;
+		$request["att"] = 0;
+		$request["spAtt"] = 0;
+		$request["def"] = 0;
+		$request["spDef"] = 0;
 		*/
 		break;
 	case "tmSearch":
@@ -78,10 +82,13 @@ switch($request["type"]) {
 			- gameID
 			- array of pokemonIDs
 		*/
-		//$request["accountID"] = 1;
-		//$request["teamName"] = "Test Team 1";
-		//$request["gameID"] = "red-blue-yellow";
-		//$request["pokemonIDs"] = array(1, 2, 3, 4, 5, 6);
+
+		/* //SAVING Test Team 1 TO user with accountID 1, gen1, with pokemon 1, 2, 3, 4, 5, 6
+		$request["accountID"] = 1;
+		$request["teamName"] = "Test Team 1";
+		$request["gameID"] = "red-blue-yellow";
+		$request["pokemonIDs"] = array(1, 2, 3, 4, 5, 6);
+		*/
 
 		//will return true if team inserted and false if error
 		break;

@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `Caught`;
 CREATE TABLE `Caught` (
   `accountID` int(11) NOT NULL,
   `gameID` varchar(50) DEFAULT NULL,
-  `pokemonID` int(11) NOT NULL,
+  `pokemonID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `level` int(11) DEFAULT NULL,
   `hp` int(11) DEFAULT NULL,
@@ -60,8 +60,8 @@ CREATE TABLE `Caught` (
   `sp_att` int(11) DEFAULT NULL,
   `sp_def` int(11) DEFAULT NULL,
   `sprite` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`accountID`,`pokemonID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`pokemonID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +70,7 @@ CREATE TABLE `Caught` (
 
 LOCK TABLES `Caught` WRITE;
 /*!40000 ALTER TABLE `Caught` DISABLE KEYS */;
+INSERT INTO `Caught` VALUES (1,'red-blue-yellow',1000,'bulbasaur',100,255,255,255,255,255,255,'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'),(1,'red-blue-yellow',1001,'bulbasaur',0,0,0,0,0,0,0,'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png');
 /*!40000 ALTER TABLE `Caught` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,6 +178,7 @@ CREATE TABLE `Team` (
 
 LOCK TABLES `Team` WRITE;
 /*!40000 ALTER TABLE `Team` DISABLE KEYS */;
+INSERT INTO `Team` VALUES ('1','Test Team 1','red-blue-yellow','1'),('1','Test Team 1','red-blue-yellow','2'),('1','Test Team 1','red-blue-yellow','3'),('1','Test Team 1','red-blue-yellow','4'),('1','Test Team 1','red-blue-yellow','5'),('1','Test Team 1','red-blue-yellow','6');
 /*!40000 ALTER TABLE `Team` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,4 +216,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-07 20:13:41
+-- Dump completed on 2018-03-08  1:29:28

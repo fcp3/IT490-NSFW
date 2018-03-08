@@ -151,6 +151,28 @@ function userCaught($request, $conn) {
 
 function editPoke($request, $conn) {
 	echo "running editPoke function\n";
+	$pokeID = $request["pokemonID"];
+	$level = $request["level"];
+	$hp = $request["hp"];
+	$speed = $request["speed"];
+	$att = $request["att"];
+	$spAtt = $request["spAtt"];
+	$def = $request["def"];
+	$spDef = $request["spDef"];
+	if($query = mysqli_prepare($conn, "UPDATE Caught SET level = ?, hp = ?, speed = ?, attack = ?, defense = ?, sp_att = ?, sp_def = ? WHERE pokemonID = ?")) {
+			$query->bind_param("iiiiiiii", $level, $hp, $speed, $att, $def, $spAtt, $spDef, $pokeID);
+			$query->execute();
+			echo "RESULT: " . var_dump($query->get_result()) . PHP_EOL;
+			echo "ROWS AFFECTED: " . $query->affected_rows . PHP_EOL;
+			if($query->affected_rows <= 0) {
+				echo "ERROR: " . $query->error;
+				$query->close();
+				return false;
+			}
+	}
+	$query->close();
+	return true;
+	
 }
 
 function saveTeam($request, $conn) {
@@ -260,6 +282,7 @@ function requestProcessor($request) {
 			$result = userCaught($request, $conn);
 			break;
 		case "editPoke":
+			$result = editPoke($request, $conn);
 			break;
 		case "tmSearch":
 			break;
