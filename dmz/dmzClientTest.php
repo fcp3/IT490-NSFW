@@ -11,8 +11,8 @@ $client = new rabbitMQClient("../testRabbitMQ.ini","queryServer");
 
 //$request = "This is a test request over queryqueue\n";
 
-//$request["type"] = "pokeSearch";
-$request["type"] = "saveTeam";
+$request["type"] = "pokeSearch";
+//$request["type"] = "saveTeam";
 //should be using:
 //$request["type"] = $_POST["query"];
 
@@ -24,8 +24,8 @@ switch($request["type"]) {
 		 	- Name OR Types
 		*/
 
-		//$request["game"] = "red-blue-yellow";
-		//$request["name"] = "bulbasaur";
+		$request["game"] = "red-blue-yellow";
+		$request["name"] = "bulbasaur";
 		//$request["type1"] = "grass";
 		//$request["type2"] = "poison";
 		//returns json array of pokemon searched for, use json_decode to parse through array
