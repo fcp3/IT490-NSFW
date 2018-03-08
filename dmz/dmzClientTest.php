@@ -30,7 +30,7 @@ switch($request["type"]) {
 
 		$request["gameID"] = "red-blue-yellow";
 		//$request["name"] = "bulbasaur";
-		//$request["pokeID"] = 1;
+		$request["pokeID"] = 1;
 		//$request["type1"] = "grass";
 		//$request["type2"] = "poison";
 		//returns json array of pokemon searched for, use json_decode to parse through array
