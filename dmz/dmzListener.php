@@ -50,8 +50,8 @@ function pokeSearch($request, $conn) {
 					echo "ERROR HERE IN QUERYING POKEMON BY NAME: " . $conn->error . PHP_EOL;
 				}
 
-			} else {
-				echo "running pokeSearch for pokemon types\n";
+			} elseif(isset($requst["type1"]) || isset($request["type2"])) {
+				echo "running pokeSearch for GAME ONLY\n";
 				$pokeType1 = $request["type1"];
 				$pokeType2 = $request["type2"];
 
@@ -79,6 +79,32 @@ function pokeSearch($request, $conn) {
 				} else {
 					echo "ERROR RUNNING POKESEARCH BY TYPE\n";
 				}
+			} else {
+				if($query = mysqli_prepare($conn, "SELECT pokedexID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ?")) {
+					$query->bind_param("s", $pokeGame);
+					$query-> execute();
+					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
+
+					while($query->fetch()) {
+						$pokemon = array();
+						$pokemon["pokeID"] = htmlspecialchars($pokeID);
+						$pokemon["name"] = htmlspecialchars($name);
+						$pokemon["type1"] = htmlspecialchars($t1);
+						$pokemon["type2"] = htmlspecialchars($t2);
+						$pokemon["att"] = htmlspecialchars($att);
+						$pokemon["def"] = htmlspecialchars($def);
+						$pokemon["spAtt"] = htmlspecialchars($spAtt);
+						$pokemon["spDef"] = htmlspecialchars($spDef);
+						$pokemon["speed"] = htmlspecialchars($spd);
+						$pokemon["hp"] = htmlspecialchars($hp);
+						$pokemon["level"] = htmlspecialchars($lvl);
+						$pokemon["sprite"] = htmlspecialchars($sprite);
+						array_push($pokeArr, $pokemon);
+					}
+				} else {
+					echo "ERROR RUNNING POKESEARCH FOR ALL POKEMON IN GAME\n";
+				}
+				
 			}
 			$result = json_encode($pokeArr);
 			echo "AT END OF pokeSearch FUNCTION: " . $result . PHP_EOL;
