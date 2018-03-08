@@ -42,6 +42,7 @@ switch($request["type"]) {
 		*/
 
 		$request["accountID"] = 1;
+		//returns pokemon from each of users saved teams
 		break;
 
 	case "userCaught":
@@ -51,6 +52,8 @@ switch($request["type"]) {
 		*/
 
 		$request["accountID"] = 1;
+
+		//returns json of all caught pokemon
 		break;
 	case "editPoke":
 		/* EDITING CAUGHT POKEMON
@@ -71,6 +74,7 @@ switch($request["type"]) {
 		$request["def"] = 0;
 		$request["spDef"] = 0;
 		*/
+		//returns true or false on udpate success/failure
 		break;
 	case "tmSearch":
 		break;
@@ -121,6 +125,8 @@ switch($request["type"]) {
 		$request["def"] = 255;
 		$request["spDef"] = 255;
 		*/
+
+		//returns true or false on successful/failed insert
 		break;
 	default:
 		echo "ERROR: BAD QUERY TYPE";
@@ -135,7 +141,7 @@ HOW TO PARSE THROUGH userTeam json
 	- use json decode to use it as a PHP array
 	- use foreach to go through each pokemon saved in a user's teams
 	- use nested foreach to loop through array of pokemon data
-
+  **** TO PARSE THROUGH pokeSearch items, just use the nested foreach loop
 $resultArr = json_decode($response);
 foreach($resultArr as $res) {
 	//echo var_dump($res);
