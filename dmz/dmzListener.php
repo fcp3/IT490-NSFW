@@ -87,6 +87,39 @@ function requestProcessor($request) {
 			//echo var_dump($pokeArr);
 			return json_encode($pokeArr);			
 			break;
+		case "userTeams":
+			break;
+		case "editPoke":
+			break;
+		case "tmSearch":
+			break;
+		case "saveTeam":
+			echo "running saveTeam function\n";
+			$acct = $request["accountID"];
+			$team = $request["teamName"];
+			$game = $request["gameID"];
+			echo var_dump($request["pokemonIDs"]);
+			foreach($request["pokemonIDs"] as $pokemonID) {
+				if($query = mysqli_prepare($conn, "INSERT INTO Team (accountID, Name, gameID, pokemon_ID) VALUES (?, ?, ?, ?)")) {
+					$query->bind_param("issi", $acct, $team, $game, $pokemonID);
+					$query->execute();
+					echo "SAVED " . $pokemonID . " INTO TEAM  " . $team . PHP_EOL;
+					echo "ROWS AFFECTED: " . $query->affected_rows . PHP_EOL;
+					if ($query->affected_rows < 0) {echo "ERROR: " . $query->error;
+						return false;
+					}
+					
+				}
+			}
+			return true;
+			break;
+		case "generateTeam":
+			break;
+		case "addCaught":
+			break;
+		default:
+			echo "ERROR: BAD QUERY TYPE\n";
+			break;
 	}
 
 }
