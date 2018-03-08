@@ -25,6 +25,8 @@ DROP TABLE IF EXISTS `Account`;
 CREATE TABLE `Account` (
   `accountID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(12) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
   PRIMARY KEY (`accountID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -49,7 +51,18 @@ CREATE TABLE `Caught` (
   `accountID` int(11) NOT NULL AUTO_INCREMENT,
   `gameID` text NOT NULL,
   `pokemon_ID` int(11) NOT NULL,
-  PRIMARY KEY (`accountID`,`pokemon_ID`)
+  `name` varchar(255) NOT NULL,
+  `poke_type` varchar(255) NOT NULL,
+  `attack` varchar(255) NOT NULL,
+  `defence` varchar(255) NOT NULL,
+  `sp_att` varchar(255) NOT NULL,
+  `sp_def` varchar(255) NOT NULL,
+  `speed` varchar(255) NOT NULL,
+  `poke_level` varchar(255) NOT NULL,
+  PRIMARY KEY (`accountID`,`pokemon_ID`),
+  KEY `pokemon_ID` (`pokemon_ID`),
+  CONSTRAINT `Caught_ibfk_1` FOREIGN KEY (`pokemon_ID`) REFERENCES `TableMember` (`pokemon_ID`),
+  CONSTRAINT `fk_acc` FOREIGN KEY (`accountID`) REFERENCES `Account` (`accountID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -71,7 +84,7 @@ DROP TABLE IF EXISTS `Pokemon`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Pokemon` (
   `pokedexID` int(255) NOT NULL,
-  `gameID` varchar(255) NOT NULL,
+  `gameID` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `poke_type` int(5) NOT NULL,
   `attack` int(5) NOT NULL,
@@ -127,7 +140,9 @@ CREATE TABLE `TableMember` (
   `pokedexID` int(11) NOT NULL,
   `gameID` int(11) NOT NULL,
   `tmID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pokemon_ID`)
+  PRIMARY KEY (`pokemon_ID`),
+  KEY `fk_dex` (`pokedexID`),
+  CONSTRAINT `fk_dex` FOREIGN KEY (`pokedexID`) REFERENCES `Pokemon` (`pokedexID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -148,16 +163,20 @@ DROP TABLE IF EXISTS `Team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Team` (
-  `accountID` varchar(255) NOT NULL,
+  `accountID` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `gameID` varchar(255) NOT NULL,
-  `pokemon_ID` varchar(255) NOT NULL,
+  `pokemon_ID` int(11) NOT NULL,
   `attack` int(5) DEFAULT NULL,
   `defence` int(5) DEFAULT NULL,
   `sp_att` int(5) DEFAULT NULL,
   `sp_def` int(5) DEFAULT NULL,
   `speed` int(5) DEFAULT NULL,
-  PRIMARY KEY (`accountID`,`pokemon_ID`)
+  `poke_level` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`accountID`,`pokemon_ID`),
+  KEY `team_poke` (`pokemon_ID`),
+  CONSTRAINT `team_acc` FOREIGN KEY (`accountID`) REFERENCES `Account` (`accountID`),
+  CONSTRAINT `team_poke` FOREIGN KEY (`pokemon_ID`) REFERENCES `TableMember` (`pokemon_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -169,31 +188,6 @@ LOCK TABLES `Team` WRITE;
 /*!40000 ALTER TABLE `Team` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Team` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `Users`
---
-
-DROP TABLE IF EXISTS `Users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Users` (
-  `username` varchar(12) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Users`
---
-
-LOCK TABLES `Users` WRITE;
-/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -204,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-01 21:03:50
+-- Dump completed on 2018-03-08 17:06:23
