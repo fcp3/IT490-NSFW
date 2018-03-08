@@ -6,27 +6,32 @@ require_once('../rabbitMQLib.inc');
 
 function pokeSearch($request, $conn) {
 	echo "running pokeSearch funtion\n";
-			$pokeGame = $request["game"];
+			$pokeGame = $request["gameID"];
 			$pokeArr = array();
 			echo "GameID: " . $pokeGame . PHP_EOL;
 			if(isset($request["name"]) || isset($request["pokeID"])){
-				$pokeName = $request["name"];
-				$pokeID = $request["pokeID"];
-				echo $pokeName . PHP_EOL;
-				echo "Searching for ID: " . $pokeID . PHP_EOL;
-				if($query = mysqli_prepare($conn, "SELECT Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ? AND (Name = ? OR pokedexID = ?)")) {
+				if(isset($request["name"])) {
+					$pokeName = $request["name"];
+					echo $pokeName . PHP_EOL;	
+				} else {
+					$pokeID = $request["pokeID"];
+					echo "Searching for ID: " . $pokeID . PHP_EOL;
+				}
+				
+				if($query = mysqli_prepare($conn, "SELECT pokedexID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ? AND (Name = ? OR pokedexID = ?)")) {
 					$query->bind_param("ssi", $pokeGame, $pokeName, $pokeID);
 					$query->execute();
-					$query->bind_result($name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
+					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
 					echo "AFFECTED ROWS: " . $query->affected_rows . PHP_EOL;
 					/*if($query->affected_rows < 0) {
 						echo "ERROR: " . $query->error;
 						return "THERE WAS AN ERROR SEARCHING POKEMON BY NAME\n";
 					}*/
 					while($query->fetch()) {
-						echo var_dump($name);
-						echo var_dump($t1);
+						//echo var_dump($name);
+						//echo var_dump($t1);
 						$pokemon = array();
+						$pokemon["pokeID"] = htmlspecialchars($pokeID);
 						$pokemon["name"] = htmlspecialchars($name);
 						$pokemon["type1"] = htmlspecialchars($t1);
 						$pokemon["type2"] = htmlspecialchars($t2);
@@ -50,13 +55,14 @@ function pokeSearch($request, $conn) {
 				$pokeType1 = $request["type1"];
 				$pokeType2 = $request["type2"];
 
-				if($query = mysqli_prepare($conn, "SELECT Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ? AND (type_1 = ? OR type_1 = ? OR type_2 = ? OR type_2 = ?)")) {
+				if($query = mysqli_prepare($conn, "SELECT pokedexID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ? AND (type_1 = ? OR type_1 = ? OR type_2 = ? OR type_2 = ?)")) {
 					$query->bind_param("sssss", $pokeGame, $pokeType1, $pokeType2, $pokeType1, $pokeType2);
 					$query->execute();
-					$query->bind_result($name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
+					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
 
 					while($query->fetch()) {
 						$pokemon = array();
+						$pokemon["pokeID"] = htmlspecialchars($pokeID);
 						$pokemon["name"] = htmlspecialchars($name);
 						$pokemon["type1"] = htmlspecialchars($t1);
 						$pokemon["type2"] = htmlspecialchars($t2);
@@ -76,6 +82,7 @@ function pokeSearch($request, $conn) {
 			}
 			$result = json_encode($pokeArr);
 			echo "AT END OF pokeSearch FUNCTION: " . $result . PHP_EOL;
+			$query->close();
 			return $result;
 }
 
@@ -107,7 +114,43 @@ function userTeams($request, $conn) {
 				$result = json_encode($teams);
 				echo "RESULT OF userTeams: " . $result . PHP_EOL;
 			}
+			$query->close();
 			return $result;
+}
+
+function userCaught($request, $conn) {
+	echo "running userCaught function\n";
+	$acct = $request["accountID"];
+	$caught = array();
+	if($query = mysqli_prepare($conn, "SELECT pokemonID, name, level, hp, speed, attack, defense, sp_att, sp_def, sprite FROM Caught WHERE accountID = ?")) {
+		$query->bind_param("i", $acct);
+		$query->execute();
+		$queryResult = $query->get_result();
+		while($data = $queryResult->fetch_assoc()) {
+			//echo var_dump($data);
+			$caughtPoke["pokemonID"] = $data["pokemonID"];
+			$caughtPoke["name"] = $data["name"];;
+			$caughtPoke["level"] = $data["level"];
+			$caughtPoke["hp"] = $data["hp"];
+			$caughtPoke["speed"] = $data["speed"];
+			$caughtPoke["att"] = $data["attack"];
+			$caughtPoke["spAtt"] = $data["sp_att"];
+			$caughtPoke["def"] = $data["defense"];
+			$caughtPoke["spDef"] = $data["sp_def"];
+			array_push($caught, $caughtPoke);
+		}
+		//echo var_dump($caught);
+		$result = json_encode($caught);
+	} else {
+		$query->close();
+		return "test error val for userCaught";
+	}
+	$query->close();
+	return $result;
+}
+
+function editPoke($request, $conn) {
+	echo "running editPoke function\n";
 }
 
 function saveTeam($request, $conn) {
@@ -128,7 +171,66 @@ function saveTeam($request, $conn) {
 					
 				}
 			}
+			$query->close();
 			return true;
+}
+
+function generateTeam($resquest, $conn) {
+
+}
+
+function addCaught($request, $conn) {
+	echo "running addCaught function\n";
+	$acct = $request["accountID"];
+	$game = $request["gameID"];
+	if(isset($request["name"])) {
+		$pokemon = $request["name"];
+		$default["name"] = $pokemon;
+	} else if (isset($request["pokemonID"])) {
+		$pokemon = $request["pokemonID"];
+		$default["pokemonID"] = $pokemon;
+	}
+
+	if(isset($request["level"])) {
+		$level = $request["level"];
+		$hp = $request["hp"];
+		$speed = $request["speed"];
+		$att = $request["att"];
+		$spAtt = $request["spAtt"];
+		$def = $request["def"];
+		$spDef = $request["spDef"];
+	}
+	$default["gameID"] = $game;
+	$defaultPoke = json_decode(pokeSearch($default, $conn));
+	foreach($defaultPoke as $poke) {
+		if(!isset($request["level"])){
+			$level = $poke->level;
+			$hp = $poke->hp;
+			$speed = $poke->speed;
+			$att = $poke->att;
+			$spAtt = $poke->spAtt;
+			$def = $poke->def;
+			$spDef = $poke->spDef;
+		}
+		$sprite = $poke->sprite; 
+	}
+
+	echo "adding to Caught: " . $pokemon . " " . $level . " " . $hp . " " . $speed . " " . $att . " " . $spAtt . " " . $def . " " . $spDef . PHP_EOL;
+
+
+	if($query = mysqli_prepare($conn, "INSERT INTO Caught (accountID, gameID, name, level, hp, speed, attack, defense, sp_att, sp_def, sprite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+		$query->bind_param("issiiiiiiis", $acct, $game, $pokemon, $level, $hp, $speed, $att, $def, $spAtt, $spDef, $sprite);
+		$query->execute();
+		echo "INSERTED INTO Caught  " .PHP_EOL;
+		echo "ROWS AFFECTED: " . $query->affected_rows . PHP_EOL;
+		if ($query->affected_rows < 0) {
+			echo "ERROR: " . $query->error;
+			$query->close();
+			return false;
+		}
+	}
+	$query->close();
+	return true;
 }
 
 function requestProcessor($request) {
@@ -154,6 +256,9 @@ function requestProcessor($request) {
 		case "userTeams":
 			$result = userTeams($request, $conn);
 			break;
+		case "userCaught":
+			$result = userCaught($request, $conn);
+			break;
 		case "editPoke":
 			break;
 		case "tmSearch":
@@ -164,12 +269,13 @@ function requestProcessor($request) {
 		case "generateTeam":
 			break;
 		case "addCaught":
+			$result = addCaught($request, $conn);
 			break;
 		default:
 			echo "ERROR: BAD QUERY TYPE\n";
 			break;
 	}
-	echo "RESULT AFTER SWITCH: " . var_dump($result);
+	//echo "RESULT AFTER SWITCH: " . var_dump($result);
 	return $result;
 
 }
