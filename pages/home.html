@@ -1,3 +1,4 @@
+session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +7,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="favicon.ico" rel="icon" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
-  <!
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  ->
   <link rel="stylesheet" href="styles.css">
-  <script>
-
-  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link href="multiple-select/multiple-select.css" rel="stylesheet"/>
 </head>
 
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <a href="home.html">Home</a>
     <a href="teams.html">Teams</a>
+    <a href="search.html">Search</a>
     <a href="mypokemon.html"> My PokeMon</a>
     <a href="about.html">About</a>
     <button class="logout" id="logout">Logout</button>
@@ -44,5 +39,182 @@
       </p>
     </div>
   </section>
+
+  <!--
+  <div class="games" style="text-align: center">
+    <h4>Start by picking a game</h4>
+
+    <label>
+      <input type="radio" name="game" value"red"/>
+      <img src="pokemonred.png">
+    </label>
+
+    <label>
+      <input type="radio" name="game" value"blue"/>
+      <img src="pokemonblue.jpg">
+    </label>
+
+    <label>
+      <input type="radio" name="game" value"green"/>
+      <img src="pokemongreen.jpg">
+    </label>
+
+    <br>
+
+    <label>
+      <input type="radio" name="game" value"gold"/>
+      <img src="gold.jpg">
+    </label>
+
+    <label>
+      <input type="radio" name="game" value"silver"/>
+      <img src="silver.jpg">
+    </label>
+  </div>
+  -->
+  <div class="teamtext">
+    <h1>Your Team</h1>
+  </div>
+  <section id="team">
+    <ul class="picked">
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+            <span class="name">???</span>
+            <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+          <span class="name">???</span>
+          <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+          <span class="name">???</span>
+          <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+          <span class="name">???</span>
+          <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+          <span class="name">???</span>
+          <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+      <li class="free">
+        <figure class="slots">
+            <img src="pokeball.png" class="art">
+        </figure>
+        <div class="info unknown">
+          <span class="name">???</span>
+          <span class="type unknown">???</span><span class="type unknown">???</span>
+        </div>
+  </section>
+
+  <div class="selecttext">
+    <h1>Filters</h1>
+  </div>
+  <section id="game-selector">
+    <div class="filters">
+
+      <form method="get">
+
+        <label>Pick a game:</label>
+        <select multiple="multiple" id="gameselect" name="gameselect">
+          <option value="red-blue-yellow">Generation 1</option>
+          <option value="gold-silver-crystal">Generation 2</option>
+
+          <script src="multiple-select/multiple-select.js"></script>
+          <script>
+            var game = document.getElementById("gameselect");
+            $(game).multipleSelect({
+              single: true
+            });
+          </script>
+        </select>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label>Type 1:</label>
+        <select multiple="multiple" id="type1" name="type1">
+          <option value="normal">Normal</option>
+          <option value="fire">Fire</option>
+          <option value="fighting">Fighting</option>
+          <option value="water">Water</option>
+          <option value="flying">Flying</option>
+          <option value="grass">Grass</option>
+          <option value="poison">Poison</option>
+          <option value="electric">Electric</option>
+          <option value="ground">Ground</option>
+          <option value="psychic">Psychic</option>
+          <option value="rock">Rock</option>
+          <option value="ice">Ice</option>
+          <option value="bug">Bug</option>
+          <option value="dragon">Dragon</option>
+          <option value="ghost">Ghost</option>
+          <option value="dark">Dark</option>
+          <option value="steel">Steel</option>
+          <option value="fairy">Fairy</option>
+
+          <script src="multiple-select/multiple-select.js"></script>
+          <script>
+            var type1 = document.getElementById("type1");
+            $(type1).multipleSelect({
+              single: true
+            });
+          </script>
+        </select>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <label>Type 2:</label>
+        <select multiple="multiple" id="type2" name="type2">
+          <option value="normal">Normal</option>
+          <option value="fire">Fire</option>
+          <option value="fighting">Fighting</option>
+          <option value="water">Water</option>
+          <option value="flying">Flying</option>
+          <option value="grass">Grass</option>
+          <option value="poison">Poison</option>
+          <option value="electric">Electric</option>
+          <option value="ground">Ground</option>
+          <option value="psychic">Psychic</option>
+          <option value="rock">Rock</option>
+          <option value="ice">Ice</option>
+          <option value="bug">Bug</option>
+          <option value="dragon">Dragon</option>
+          <option value="ghost">Ghost</option>
+          <option value="dark">Dark</option>
+          <option value="steel">Steel</option>
+          <option value="fairy">Fairy</option>
+
+          <script src="multiple-select/multiple-select.js"></script>
+          <script>
+            var type2 = document.getElementById("type2");
+            $(type2).multipleSelect({
+              single: true
+            });
+          </script>
+        </select>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </section>
+
 </body>
 </html>
