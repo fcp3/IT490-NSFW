@@ -14,7 +14,7 @@ function logProcessor($log)
 
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","logServer");
+$server = new rabbitMQServer("logServer.ini","logServer");
 
 $server->process_requests('logProcessor');
 exit();

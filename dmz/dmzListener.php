@@ -300,7 +300,7 @@ function requestProcessor($request) {
 
 }
 
-$server = new rabbitMQServer("../testRabbitMQ.ini","queryServer");
+$server = new rabbitMQServer("../queryServer.ini","queryServer");
 
 $server->process_requests('requestProcessor');
 exit();

@@ -4,7 +4,7 @@ require_once('../path.inc');
 require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
 
-$client = new rabbitMQClient("../testRabbitMQ.ini","queryServer");
+$client = new rabbitMQClient("../queryServer.ini","queryServer");
 
 //Starter database can be found in SlowPokeBasev2.sql
 //import to sql with 'mysql -u <username> -p <database name> < SlowPokeBasev2.sql'

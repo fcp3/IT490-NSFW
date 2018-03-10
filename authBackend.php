@@ -8,7 +8,7 @@ require_once('logging_php.inc.php');
 
 function doLogin($username,$password) {
   //connecting to the sample database
-  $conn = mysqli_connect("localhost", "root", "1234", "testdb");
+  $conn = mysqli_connect("localhost", "root", "1234", "SlowPokeBase");
 
   if(!$conn) {
     logger( __FILE__ . " : " . __LINE__ . " :error: " . mysqli_connect_error());
@@ -19,7 +19,7 @@ function doLogin($username,$password) {
   }
 
   //creating the query
-  $query = "SELECT * from TestUsers where username = '$username' AND password = '$password'";
+  $query = "SELECT * from Account where username = '$username' AND password = '$password'";
   $result = mysqli_query($conn, $query);
   $count = mysqli_num_rows($result);
   $array = mysqli_fetch_assoc($result);
@@ -35,7 +35,7 @@ function doLogin($username,$password) {
 }
 
 function doRegister($username, $password, $email) {
-	$conn = mysqli_connect("localhost", "root", "1234", "testdb");
+	$conn = mysqli_connect("localhost", "root", "1234", "SlowPokeBase");
 
 	if(!$conn) {
 		die("ERROR: Could not connect:" . mysqli_connect_error());
@@ -43,12 +43,12 @@ function doRegister($username, $password, $email) {
 		echo "SUCCESS: Connected to db";	
 	}
 
-	$query = "SELECT * from TestUsers where username = '$username' AND password = '$password'";
+	$query = "SELECT * from Account where username = '$username'";
 	$result = mysqli_query($conn, $query);
 	$count = mysqli_num_rows($result);
 
 	if($count == 0) {
-		$registerQuery = "INSERT into TestUsers (username, password, email) VALUES('$username', '$password', '$email')";
+		$registerQuery = "INSERT into Account (username, password, email) VALUES('$username', '$password', '$email')";
 		$register = mysqli_query($conn, $registerQuery);
 		return true;	
 	} elseif ($count == 1) {
