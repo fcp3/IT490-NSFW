@@ -5,6 +5,7 @@ require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
 
 $client = new rabbitMQClient("../queryServer.ini","queryServer");
+echo var_dump($_POST);
 
 //Starter database can be found in SlowPokeBasev2.sql
 //import to sql with 'mysql -u <username> -p <database name> < SlowPokeBasev2.sql'
@@ -13,12 +14,12 @@ $client = new rabbitMQClient("../queryServer.ini","queryServer");
 
 //$request["type"] = "pokeSearch";
 //$request["type"] = "saveTeam";
-$request["type"] = "userTeams";
+//$request["type"] = "userTeams";
 //$request["type"] = "userCaught";
 //$request["type"] = "addCaught";
 //$request["type"] = "editPoke";
 //should be using:
-//$request["type"] = $_POST["query"];
+$request["type"] = $_POST["type"];
 
 switch($request["type"]) {
 	case "pokeSearch":
@@ -28,12 +29,20 @@ switch($request["type"]) {
 		 	- Name OR Types
 		*/
 
-		$request["gameID"] = "red-blue-yellow";
+		//$request["gameID"] = "red-blue-yellow";
 		//$request["name"] = "bulbasaur";
 		//$request["pokeID"] = 1;
 		//$request["type1"] = "grass";
 		//$request["type2"] = "poison";
 		//returns json array of pokemon searched for, use json_decode to parse through array
+
+
+		$request["gameID"] = $_POST["gameselect"];
+		if(isset($_POST["type1"])) {
+			$request["type1"] = $_POST["type1"];
+			$request["type2"] = $_POST["type2"];
+		}
+
 		break;
 	case "userTeams":
 		/* LISTING ALL USER TEAMS
@@ -134,6 +143,8 @@ switch($request["type"]) {
 }
 
 $response = $client->send_request($request);
+echo var_dump(json_decode($response));
+/*
 $resultArr = json_decode($response);
 foreach($resultArr as $res) {
 	echo var_dump($res);
@@ -154,7 +165,7 @@ foreach($resultArr as $res) {
 		echo PHP_EOL;
 	}
 
-}
+}*/
 
 /*
 HOW TO PARSE THROUGH userTeam json

@@ -133,7 +133,7 @@ session_start();
   <section id="game-selector">
     <div class="filters">
 
-      <form method="get">
+      <form method="post" action="../dmz/dmzClientTest.php">
 
         <label>Pick a game:</label>
         <select multiple="multiple" id="gameselect" name="gameselect">
@@ -211,7 +211,7 @@ session_start();
             });
           </script>
         </select>
-        <input type="submit" value="Submit">
+        <input type="submit" value="pokeSearch" name="type">
       </form>
     </div>
   </section>

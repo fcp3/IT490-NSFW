@@ -20,7 +20,7 @@ else
 $request = array();
 $request['type'] = $_POST["type"];
 $request['username'] = $_POST["email"];
-$request['password'] = $_POST["psw"];
+$request['password'] = hash("sha256", $_POST["psw"]);
 $request['message'] = $_POST["email"];
 echo var_dump($request);
 $response = $client->send_request($request);
@@ -36,7 +36,7 @@ switch ($response["message"]["type"]) {
 		if ($response["message"]["result"]) {
 			$_SESSION["userID"] = $request["username"];
 			$_SESSION["password"] = $request["password"];
-			header("Location: /samplehome.php");
+			header("Location: /pages/home.html");
 		} else {
 			echo "Login error!" . PHP_EOL;
 		}
@@ -45,7 +45,7 @@ switch ($response["message"]["type"]) {
 		if ($response["message"]["result"]) {
 			$_SESSION["userID"] = $request["username"];
 			$_SESSION["password"] = $request["password"];
-			header("Location: /sampleregistered.php");
+			header("Location: /pages/home.html");
 		} else {
 			echo "Registration error!" . PHP_EOL;
 		}		
