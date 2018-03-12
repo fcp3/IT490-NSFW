@@ -21,9 +21,9 @@
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <a href="home.html">Home</a>
-    <a href="teams.html">Teams</a>
+    <a href="teams.html" id="userTeam">Teams</a>
     <a href="search.html">Search</a>
-    <a href="mypokemon.html"> My PokeMon</a>
+    <a href="mypokemon.html" id="userPoke"> My PokeMon</a>
     <a href="about.html">About</a>
     <button class="logout" id="logout">Logout</button>
   </div>
@@ -47,3 +47,23 @@
   </section>
 </body>
 </html>
+<script>
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookies = decodedCookie.split(';');
+    for(var i in cookies) {
+      var cookie = cookies[i];
+      while(cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+
+  $('#userPoke').text(getCookie("userID") + "'s PokeMon");
+  $('#userTeam').text(getCookie("userID") + "'s Teams");
+</script>

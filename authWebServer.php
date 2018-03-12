@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
@@ -34,9 +31,15 @@ $response = $client->send_request($request);
 //echo var_dump($response);
 switch ($response["message"]["type"]) {
 	case "login":
-		if ($response["message"]["result"]) {
-			$_SESSION["userID"] = $request["username"];
-			$_SESSION["password"] = $request["password"];
+		if ($response["message"]["result"]["value"]) {
+			/*
+			$_SESSION["userID"] = $response["message"]["result"]["user"];
+			$_SESSION["acctID"] = $response["message"]["result"]["acct"];
+			$_SESSION["email"] = $response["message"]["result"]["email"];
+			*/
+			setcookie("userID", $_SESSION["userID"], 0, "/");
+			setcookie("acctID", $_SESSION["acctID"], 0, "/");
+			setcookie("email", $_SESSION["email"], 0, "/");
 			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
@@ -44,9 +47,16 @@ switch ($response["message"]["type"]) {
 		}
 		break;
 	case "register":
-		if ($response["message"]["result"]) {
-			$_SESSION["userID"] = $request["username"];
-			$_SESSION["password"] = $request["password"];
+		if ($response["message"]["result"]["value"]) {
+			/*
+			$_SESSION["userID"] = $response["message"]["result"]["user"];
+			$_SESSION["acctID"] = $response["message"]["result"]["acct"];
+			$_SESSION["email"] = $response["message"]["result"]["email"];
+			*/
+			setcookie("userID", $_SESSION["userID"], 0, "/");
+			setcookie("acctID", $_SESSION["acctID"], 0, "/");
+			setcookie("email", $_SESSION["email"], 0, "/");
+			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
 			echo "Registration error!" . PHP_EOL;
