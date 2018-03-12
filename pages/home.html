@@ -223,7 +223,7 @@ session_start();
       
     </div>
     <textarea id="pokeresults" rows="4" cols="50"></textarea>
-    <div id="showData"></div>
+    <div id="showData" class="showData"></div>
   </section>
 
 </body>
@@ -251,12 +251,12 @@ session_start();
 	  for(var i in response) {
 	    var id = response[i].name;
 	    var sprite = response[i].sprite;
-	    $('#showData').append('<div id="pokemon"> </div>');
-	    var img = document.createElement("img");
-	    img.src = sprite;
-	    var src = document.getElementById("showData");
-	    src.appendChild(img);
-	    $('#showData').append('<p> ID: ' + id + '</p>');
+	    
+	    var div = document.createElement("div");
+	    div.setAttribute("id", "pokemon");
+	    div.innerHTML = '<p> ID: ' + id + '</p>' + '<img src="' + sprite +'">';
+
+	    $('#showData').append(div);
 	  }	    
         },
         error: function(jqxhr, textStatus, exception) {
