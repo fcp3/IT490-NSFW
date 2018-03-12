@@ -5,7 +5,7 @@ require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
 
 $client = new rabbitMQClient("../queryServer.ini","queryServer");
-echo var_dump($_POST);
+//echo var_dump($_POST);
 
 //Starter database can be found in SlowPokeBasev2.sql
 //import to sql with 'mysql -u <username> -p <database name> < SlowPokeBasev2.sql'
@@ -143,7 +143,7 @@ switch($request["type"]) {
 }
 
 $response = $client->send_request($request);
-echo var_dump(json_decode($response));
+echo $response;
 /*
 $resultArr = json_decode($response);
 foreach($resultArr as $res) {

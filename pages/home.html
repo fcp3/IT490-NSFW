@@ -1,5 +1,7 @@
 session_start();
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
   <title>PokeTeams</title>
@@ -133,7 +135,7 @@ session_start();
   <section id="game-selector">
     <div class="filters">
 
-      <form method="post" action="../dmz/dmzClientTest.php">
+      <form>
 
         <label>Pick a game:</label>
         <select multiple="multiple" id="gameselect" name="gameselect">
@@ -211,10 +213,43 @@ session_start();
             });
           </script>
         </select>
-        <input type="submit" value="pokeSearch" name="type">
+        <input id="submit" type="submit" value="pokeSearch" name="type">
+        
       </form>
+      
     </div>
+    <textarea id="pokeresults" rows="4" cols="50"></textarea>
   </section>
 
 </body>
+<script>
+  $(document).ready(function() {
+
+    $('#submit').on('click', function(e){
+      e.preventDefault();
+      var game = $('#gameselect').val();
+      var type1 = $('#type1').val();
+      var type2 = $('#type2').val();
+      var type = "pokeSearch";
+      console.log(game);
+      console.log(type2);
+      console.log(type1);
+      $.ajax({
+        type:'POST',
+        url:'../dmz/dmzClientTest.php',
+        datatype: 'json',
+        data:{type:type, gameselect:game, type1:type1, type2:type2},
+        success: function(data){
+          $('#pokeresults').text(data);
+        },
+        error: function(jqxhr, textStatus, exception) {
+          console.log(exception);
+          console.log(textStatus);
+          console.log(jqxhr);
+          alert('Exception:', exception);
+        }
+      });
+    });
+  });
+</script>
 </html>

@@ -7,6 +7,7 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+//echo "authWebServer: " . PHP_EOL . var_dump($client) . PHP_EOL;
 
 if (isset($argv[1]))
 {
@@ -22,20 +23,21 @@ $request['type'] = $_POST["type"];
 $request['username'] = $_POST["email"];
 $request['password'] = hash("sha256", $_POST["psw"]);
 $request['message'] = $_POST["email"];
-echo var_dump($request);
+//echo var_dump($request);
 $response = $client->send_request($request);
-echo var_dump($response);
+//echo var_dump($response);
 //$response = $client->publish($request);
 
 //echo "client received response: ".PHP_EOL;
 //echo $response["message"] . PHP_EOL;
 //echo "\n\n";
-echo var_dump($response);
+//echo var_dump($response);
 switch ($response["message"]["type"]) {
 	case "login":
 		if ($response["message"]["result"]) {
 			$_SESSION["userID"] = $request["username"];
 			$_SESSION["password"] = $request["password"];
+			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
 			echo "Login error!" . PHP_EOL;

@@ -6,7 +6,7 @@ require_once('../rabbitMQLib.inc');
 
 function pokeSearch($request, $conn) {
 	echo "running pokeSearch funtion\n";
-			$pokeGame = $request["gameID"];
+			$pokeGame = $request["gameID"][0];
 			$pokeArr = array();
 			echo "GameID: " . $pokeGame . PHP_EOL;
 			if(isset($request["name"]) || isset($request["pokeID"])){
@@ -33,8 +33,8 @@ function pokeSearch($request, $conn) {
 
 			} elseif(isset($requst["type1"]) || isset($request["type2"])) {
 				echo "running pokeSearch for GAME ONLY\n";
-				$pokeType1 = $request["type1"];
-				$pokeType2 = $request["type2"];
+				$pokeType1 = $request["type1"][0];
+				$pokeType2 = $request["type2"][0];
 
 				if($query = mysqli_prepare($conn, "SELECT pokedexID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ? AND (type_1 = ? OR type_1 = ? OR type_2 = ? OR type_2 = ?)")) {
 					$query->bind_param("sssss", $pokeGame, $pokeType1, $pokeType2, $pokeType1, $pokeType2);
@@ -255,6 +255,7 @@ function addCaught($request, $conn) {
 function requestProcessor($request) {
 
 	echo "Found request!" . PHP_EOL;
+	echo var_dump($request);
 	//echo $request . PHP_EOL;
 	//return "Request was received!\n";
 	
@@ -301,6 +302,7 @@ function requestProcessor($request) {
 }
 
 $server = new rabbitMQServer("../queryServer.ini","queryServer");
+echo var_dump($server);
 
 $server->process_requests('requestProcessor');
 exit();

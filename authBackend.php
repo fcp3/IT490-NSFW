@@ -92,6 +92,7 @@ function requestProcessor($request)
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+echo var_dump($server);
 
 $server->process_requests('requestProcessor');
 exit();
