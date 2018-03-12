@@ -213,12 +213,17 @@ session_start();
             });
           </script>
         </select>
-        <input id="submit" type="submit" value="pokeSearch" name="type">
-        
+        <input id="submit" type="submit" value="pokeSearch" name="type" onclick="clearBox('showData')">
+        <script>
+	  function clearBox(elementID) {
+	    document.getElementById("showData").innerHTML = "";
+	  }
+	</script>
       </form>
       
     </div>
     <textarea id="pokeresults" rows="4" cols="50"></textarea>
+    <div id="showData"></div>
   </section>
 
 </body>
@@ -241,6 +246,18 @@ session_start();
         data:{type:type, gameselect:game, type1:type1, type2:type2},
         success: function(data){
           $('#pokeresults').text(data);
+	  var response;
+	  response = JSON.parse(data);
+	  for(var i in response) {
+	    var id = response[i].name;
+	    var sprite = response[i].sprite;
+	    $('#showData').append('<div id="pokemon"> </div>');
+	    var img = document.createElement("img");
+	    img.src = sprite;
+	    var src = document.getElementById("showData");
+	    src.appendChild(img);
+	    $('#showData').append('<p> ID: ' + id + '</p>');
+	  }	    
         },
         error: function(jqxhr, textStatus, exception) {
           console.log(exception);
