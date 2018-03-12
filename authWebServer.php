@@ -37,9 +37,9 @@ switch ($response["message"]["type"]) {
 			$_SESSION["acctID"] = $response["message"]["result"]["acct"];
 			$_SESSION["email"] = $response["message"]["result"]["email"];
 			*/
-			setcookie("userID", $_SESSION["userID"], 0, "/");
-			setcookie("acctID", $_SESSION["acctID"], 0, "/");
-			setcookie("email", $_SESSION["email"], 0, "/");
+			setcookie("userID", $response["message"]["result"]["user"], 0, "/");
+			setcookie("acctID", $response["message"]["result"]["acct"], 0, "/");
+			setcookie("email", $response["message"]["result"]["email"], 0, "/");
 			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
@@ -53,9 +53,9 @@ switch ($response["message"]["type"]) {
 			$_SESSION["acctID"] = $response["message"]["result"]["acct"];
 			$_SESSION["email"] = $response["message"]["result"]["email"];
 			*/
-			setcookie("userID", $_SESSION["userID"], 0, "/");
-			setcookie("acctID", $_SESSION["acctID"], 0, "/");
-			setcookie("email", $_SESSION["email"], 0, "/");
+			setcookie("userID", $response["message"]["result"]["user"], 0, "/");
+			setcookie("acctID", $response["message"]["result"]["acct"], 0, "/");
+			setcookie("email", $response["message"]["result"]["email"], 0, "/");
 			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
