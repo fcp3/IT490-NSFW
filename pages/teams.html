@@ -16,6 +16,7 @@
   <script>
 
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +46,9 @@
       </p>
     </div>
   </section>
+  <section id="teams">
+    
+  </section>
 </body>
 </html>
 <script>
@@ -66,4 +70,61 @@
 
   $('#userPoke').text(getCookie("userID") + "'s PokeMon");
   $('#userTeam').text(getCookie("userID") + "'s Teams");
+
+  $(document).ready(function() {
+   
+      //e.preventDefault();
+      var acctID = getCookie("acctID");
+      var type = "userTeams";
+      console.log(acctID);
+      $.ajax({
+        type:'POST',
+        url:'../dmz/dmzClientTest.php',
+        datatype: 'json',
+        data:{type:type, acctID:acctID},
+        success: function(data) {
+          var response = JSON.parse(data);
+          for(var i in response) {
+            console.log(response[i]);
+            var div = document.createElement("div");
+            div.setAttribute("id", "team");
+            div.setAttribute("class", "showData");
+            var header = document.createElement("h5");
+            header.innerHTML = response[i].name;
+            div.appendChild(header);
+
+            for(var j in response[i]) {
+              
+              var name = response[i][j][0].name;
+              var sprite = response[i][j][0].sprite;
+              var innerDiv = document.createElement("div");
+              if(name == null) {
+                continue;
+              }
+              console.log(name);
+              console.log(sprite);
+              var p = document.createElement("p");
+              p.setAttribute("id", "pokemonName");
+              p.innerHTML = name;
+              innerDiv.appendChild(p);
+
+              var img = document.createElement("img");
+              img.setAttribute("src", sprite);
+              innerDiv.appendChild(img);
+              div.appendChild(innerDiv);
+            }
+
+            $('#teams').append(div);
+
+          }
+        },
+        error: function(jqxhr, textStatus, exception) {
+          console.log(exception);
+          console.log(textStatus);
+          console.log(jqxhr);
+          alert("ERROR IN PULLING USER TEAMS");
+        }
+      });
+ 
+  });
 </script>

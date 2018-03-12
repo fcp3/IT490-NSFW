@@ -91,23 +91,50 @@ function userTeams($request, $conn) {
 				//$query->bind_result($teamName, $game, $pokemonID);
 				$queryResult = $query->get_result();
 				echo "TRYING TO GET ALL RESULTS AT ONCE: " . var_dump($queryResult) . PHP_EOL;
+				$counter = 0;
+				$team = array();
 				while($data = $queryResult->fetch_assoc()) {
 					//echo var_dump($data);
-					
 					$pokemon["team"] = $data["Name"];
+					if($counter == 0) {
+						$lastTeam = $pokemon["team"];
+						$team["name"] = $lastTeam;
+					}
+					
+					
+					echo "Last team was: " . $lastTeam . PHP_EOL;
+					echo "Currently looking at pokemon from team: " . $pokemon["team"] . PHP_EOL;
+					echo "Counter: " . $counter;
+					if($pokemon["team"] != $lastTeam && $counter >= 1) {
+						//echo "Adding complete team\n";
+						//echo var_dump($team);
+						$lastTeam = $pokemon["team"];
+						array_push($teams, $team);
+						//echo "Currently accumulated teams: \n";
+						//echo var_dump($teams);
+						$team = array();
+						$team["name"] = $lastTeam;
+					}
+					$pokemonID = $data["pokemon_ID"];
 					if($pokemonID < 1000) {
-						$poke["gameID"] = $data["gameID"];
+						//echo "About to run pokeSearch IN userTeams\n";
+						$poke["gameID"] = array($data["gameID"]);
 						$poke["pokeID"] = $data["pokemon_ID"];
 						//echo "POKE DATA SEARCHING FOR TEAM: " . var_dump($poke) . PHP_EOL; 
 						$pokeData = json_decode(pokeSearch($poke, $conn));
 						//echo "POKE DATA FOUND FROM pokeSearch: " . var_dump($pokeData) . PHP_EOL;
 						$pokemon["pokemon"] = $pokeData;
-						array_push($teams, $pokemon);
+						echo var_dump($pokemon["pokemon"]) . PHP_EOL;
+						echo var_dump($team) . PHP_EOL;
+						array_push($team, $pokemon["pokemon"]);
+						echo var_dump($team) . PHP_EOL;
 					} elseif ($pokemonID >= 1000) {
 						//code for teams with custom pokemon
 					}
+					$counter += 1;
 					
 				}
+				array_push($teams, $team);
 				$result = json_encode($teams);
 				echo "RESULT OF userTeams: " . var_dump($result) . PHP_EOL;
 			}
