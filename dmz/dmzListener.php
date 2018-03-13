@@ -9,6 +9,14 @@ function pokeSearch($request, $conn) {
 			$pokeGame = $request["gameID"][0];
 			$pokeArr = array();
 			echo "GameID: " . $pokeGame . PHP_EOL;
+			if($request["type1"][0] == '') {
+				echo "setting null type\n";
+				$request["type1"][0] == null;
+			}
+			if($request["type2"][0] == '') {
+				echo "setting null type\n";
+				$request["type2"][0] == null;
+			}
 			if(isset($request["name"]) || isset($request["pokeID"])){
 				if(isset($request["name"])) {
 					$pokeName = $request["name"];
@@ -31,8 +39,8 @@ function pokeSearch($request, $conn) {
 					echo "ERROR HERE IN QUERYING POKEMON BY NAME: " . $conn->error . PHP_EOL;
 				}
 
-			} elseif(isset($requst["type1"]) || isset($request["type2"])) {
-				echo "running pokeSearch for GAME ONLY\n";
+			} elseif($request["type1"][0] != null) {
+				echo "running pokeSearch for TYPES\n";
 				$pokeType1 = $request["type1"][0];
 				$pokeType2 = $request["type2"][0];
 
@@ -45,6 +53,7 @@ function pokeSearch($request, $conn) {
 					echo "ERROR RUNNING POKESEARCH BY TYPE\n";
 				}
 			} else {
+				echo "running pokeSearch for GAME ONLY\n";
 				if($query = mysqli_prepare($conn, "SELECT pokedexID, Name, type_1, type_2, attack, defense, sp_att, sp_def, speed, hp, sprite, level  FROM Pokemon WHERE gameID = ?")) {
 					$query->bind_param("s", $pokeGame);
 					$query-> execute();
