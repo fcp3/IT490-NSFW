@@ -89,18 +89,27 @@
             var div = document.createElement("div");
             div.setAttribute("id", "team");
             div.setAttribute("class", "showData");
-            var header = document.createElement("h5");
+
+            if(response[i].length == 0) {
+              var empty = document.createElement("h1");
+              empty.innerHTML = "There's nothing here! Go make some teams!";
+              div.appendChild(empty);
+              $('#teams').append(div);
+              break;
+            }
+
+            var header = document.createElement("h3");
             header.innerHTML = response[i].name;
             div.appendChild(header);
 
             for(var j in response[i]) {
-              
+              if(response[i][j][0] == null || response[i][j][0].name == null) {
+                continue;
+              }
               var name = response[i][j][0].name;
               var sprite = response[i][j][0].sprite;
               var innerDiv = document.createElement("div");
-              if(name == null) {
-                continue;
-              }
+              
               console.log(name);
               console.log(sprite);
               var p = document.createElement("p");

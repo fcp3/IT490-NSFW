@@ -262,35 +262,32 @@
         data:{type:type, gameselect:game, type1:type1, type2:type2},
         success: function(data){
           $('#pokeresults').text(data);
-	  var response;
-	  response = JSON.parse(data);
-	  for(var i in response) {
-	    var id = response[i].name;
-	    var sprite = response[i].sprite;
-	    var poketype1 = response[i].type1;	
-	    var poketype2 = response[i].type2;
-      var pokeID = response[i].pokeID;
-	    
-	    var div = document.createElement("div");
-	    div.setAttribute("id", "pokemon");
-	    div.setAttribute("class", "pokeimg");
-	    //div.innerHTML = '<p id = "pokedata" hidden> ID: ' + id + ' Type1: ' + poketype1 + ' Type2: ' + poketype2 + '</p>' + '<img src="' + sprite +'">';
-
-      var p = document.createElement("p");
-      p.setAttribute("id", "pokedata");
-      p.setAttribute('hidden', '');
-      p.setAttribute('value', pokeID);
-      p.innerHTML = ' ID: ' + id + ' Type1: ' + poketype1 + ' Type2: ' + poketype2;
-
-      div.appendChild(p);
-
-      var img = document.createElement("img");
-      img.setAttribute('src', sprite);
-      div.appendChild(img);
-
-		
-	    $('#showData').append(div);
-	  }	    
+          var response;
+          response = JSON.parse(data);
+          for(var i in response) {
+            var id = response[i].name;
+            var sprite = response[i].sprite;
+            var poketype1 = response[i].type1;	
+            var poketype2 = response[i].type2;
+            var pokeID = response[i].pokeID;
+	         
+            var div = document.createElement("div");
+            div.setAttribute("id", "pokemon");
+            div.setAttribute("class", "pokeimg");
+  
+            var p = document.createElement("p");
+            p.setAttribute("id", "pokedata");
+            p.setAttribute('hidden', '');
+            p.setAttribute('value', pokeID);
+            p.innerHTML ='ID: '+id+' Type1: '+poketype1+' Type2: '+poketype2;
+  
+            div.appendChild(p);
+  
+            var img = document.createElement("img");
+            img.setAttribute('src', sprite);
+            div.appendChild(img);
+            $('#showData').append(div);
+          }	    
         },
         error: function(jqxhr, textStatus, exception) {
           console.log(exception);
@@ -342,27 +339,38 @@
     $(document).on("click", "#saveteam", function(e) {
       var type = "saveTeam";
       var acctID = getCookie("acctID");
+      var game = $('#gameselect').val();
       var teamName = document.getElementById("teamname").value;
-      var pokemon1 = document.getElementById("pokename1").getAttribute("value");
-      var pokemon2 = document.getElementById("pokename2").getAttribute("value");
-      var pokemon3 = document.getElementById("pokename3").getAttribute("value");
-      var pokemon4 = document.getElementById("pokename4").getAttribute("value");
-      var pokemon5 = document.getElementById("pokename5").getAttribute("value");
-      var pokemon6 = document.getElementById("pokename6").getAttribute("value");
+      var poke1 = document.getElementById("pokename1").getAttribute("value");
+      var poke2 = document.getElementById("pokename2").getAttribute("value");
+      var poke3 = document.getElementById("pokename3").getAttribute("value");
+      var poke4 = document.getElementById("pokename4").getAttribute("value");
+      var poke5 = document.getElementById("pokename5").getAttribute("value");
+      var poke6 = document.getElementById("pokename6").getAttribute("value");
+      var pokeArr = [poke1, poke2, poke3, poke4, poke5, poke6];
       console.log(teamName);
       console.log(acctID);
-      console.log(pokemon1);
-      console.log(pokemon2);
-      console.log(pokemon3);
-      console.log(pokemon4);
-      console.log(pokemon5);
-      console.log(pokemon6);
+      console.log(game);
+      console.log(pokeArr);
       $.ajax({
         type:'POST',
         url:'../dmz/dmzClientTest.php',
         datatype: 'json',
-        data:{type:type, gameselect:game, accountID:acctID, teamName:teamName},
-        success: function(data){}
+        data:{type:type, gameID:game, accountID:acctID, teamName:teamName, pokemonIDs:pokeArr},
+        success: function(data){
+          console.log(data);
+          response = JSON.parse(data);
+          console.log(response);
+          if(response == true) {
+            window.location.replace("teams.html");
+          } else {
+            alert("ERROR: DUPLICATE POKEMON, REFRESH PAGE");
+          }
+
+        },
+        error: function(data){
+          console.log(data);
+        }
       });
     });
 

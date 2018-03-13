@@ -212,9 +212,13 @@ function saveTeam($request, $conn) {
 	echo "running saveTeam function\n";
 			$acct = $request["accountID"];
 			$team = $request["teamName"];
-			$game = $request["gameID"];
+			$game = $request["gameID"][0];
+
 			//echo var_dump($request["pokemonIDs"]);
 			foreach($request["pokemonIDs"] as $pokemonID) {
+				if($pokemonID == "") {
+					break;
+				}
 				if($query = mysqli_prepare($conn, "INSERT INTO Team (accountID, Name, gameID, pokemon_ID) VALUES (?, ?, ?, ?)")) {
 					$query->bind_param("issi", $acct, $team, $game, $pokemonID);
 					$query->execute();
@@ -321,7 +325,7 @@ function requestProcessor($request) {
 		case "tmSearch":
 			break;
 		case "saveTeam":
-			$result = saveTeam($request, $conn);
+			$result = json_encode(saveTeam($request, $conn));
 			break;
 		case "generateTeam":
 			break;
@@ -333,6 +337,7 @@ function requestProcessor($request) {
 			break;
 	}
 	//echo "RESULT AFTER SWITCH: " . var_dump($result);
+	echo var_dump($result);
 	return $result;
 
 }

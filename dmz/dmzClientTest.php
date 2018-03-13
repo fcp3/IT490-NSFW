@@ -50,7 +50,7 @@ switch($request["type"]) {
 			- accountID
 		*/
 
-		$request["accountID"] = 1;
+		$request["accountID"] = $_POST["acctID"];
 		//returns pokemon from each of users saved teams
 		break;
 
@@ -96,12 +96,17 @@ switch($request["type"]) {
 			- array of pokemonIDs
 		*/
 
-		/* //SAVING Test Team 1 TO user with accountID 1, gen1, with pokemon 1, 2, 3, 4, 5, 6 */
+		/* //SAVING Test Team 1 TO user with accountID 1, gen1, with pokemon 1, 2, 3, 4, 5, 6 
 		$request["accountID"] = 1;
 		$request["teamName"] = "Test Team 2";
 		$request["gameID"] = "red-blue-yellow";
 		$request["pokemonIDs"] = array(101, 102, 103, 104, 105, 106);
-		/**/
+		*/
+
+		$request["accountID"] = $_POST["accountID"];
+		$request["teamName"] = $_POST["teamName"];
+		$request["gameID"] = $_POST["gameID"];
+		$request["pokemonIDs"] = $_POST["pokemonIDs"];
 
 		//will return true if team inserted and false if error
 		break;
