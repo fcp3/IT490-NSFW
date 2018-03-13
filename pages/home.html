@@ -130,9 +130,10 @@
     </ul>
  	<br>
     <div class="savefields" id="savefields">
+
        <input id="teamname" type="name" name="saveteam" placeholder="Team name">
        <button id="saveteam" type="button">Save Team</button>
-       <button type="button">Clear</button>
+
     </div>
   </section>
 
@@ -222,7 +223,9 @@
           </script>
         </select>
 	<br><br>
+	<div id="submitdiv">
         <input id="submit" type="submit" value="pokeSearch" name="type" onclick="clearBox('showData')">
+        </div>
         <script>
 	  function clearBox(elementID) {
 	    document.getElementById("showData").innerHTML = "";
@@ -242,7 +245,7 @@
 </body>
 <script>
   $(document).ready(function() {
-
+   
     $('#submit').on('click', function(e){
       e.preventDefault();
       var game = $('#gameselect').val();
@@ -362,6 +365,19 @@
         success: function(data){}
       });
     });
+
+    $('#team').on("click", "#clearbutton", function(e) {
+      e.preventDefault();
+      console.log("Test");
+      $('#slot1').attr("src", "pokeball.png");
+      $('#slot2').attr("src", "pokeball.png");
+      $('#slot3').attr("src", "pokeball.png");
+      $('#slot4').attr("src", "pokeball.png");
+      $('#slot5').attr("src", "pokeball.png");
+      $('#slot6').attr("src", "pokeball.png");
+      $('#pokename1').replaceWith("???");
+    });
+
   });
 </script>
 <script>

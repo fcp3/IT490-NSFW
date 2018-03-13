@@ -419,8 +419,13 @@ ul.picked li .info .type {
   flex-wrap: wrap;
 }
 
+.showData img:hover {
+  cursor: pointer;
+}
+
 .resultsdiv {
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .json {
@@ -429,4 +434,12 @@ ul.picked li .info .type {
 
 .pokeimg img {
   border-radius: 50%;
+}
+
+.pokeimg:hover {
+  background-color: #E4E4E4;
+}
+
+#submitdiv {
+  margin-bottom: 5px;
 }
