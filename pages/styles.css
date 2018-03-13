@@ -384,7 +384,7 @@ ul.picked li .info {
 
 ul.picked li .info.unknown .name,
 ul.picked li .info.unknown1 .name {
-    margin: 0
+    margin: 20px;
 }
 
 ul.picked li .info .name {
