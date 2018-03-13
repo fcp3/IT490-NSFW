@@ -80,52 +80,60 @@
     <ul class="picked">
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot1" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-            <span class="name">???</span>
-            <span class="type unknown">???</span><span class="type unknown">???</span>
+            <span class="name" id="pokename1">???</span>
+         
         </div>
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot2" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-          <span class="name">???</span>
+          <span class="name" id="pokename2">???</span>
           <span class="type unknown">???</span><span class="type unknown">???</span>
         </div>
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot3" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-          <span class="name">???</span>
+          <span class="name" id="pokename3">???</span>
           <span class="type unknown">???</span><span class="type unknown">???</span>
         </div>
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot4" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-          <span class="name">???</span>
+          <span class="name" id="pokename4">???</span>
           <span class="type unknown">???</span><span class="type unknown">???</span>
         </div>
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot5" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-          <span class="name">???</span>
+          <span class="name" id="pokename5">???</span>
           <span class="type unknown">???</span><span class="type unknown">???</span>
         </div>
       <li class="free">
         <figure class="slots">
-            <img src="pokeball.png" class="art">
+            <img id="slot6" src="pokeball.png" class="art">
         </figure>
         <div class="info unknown">
-          <span class="name">???</span>
+          <span class="name" id="pokename6">???</span>
           <span class="type unknown">???</span><span class="type unknown">???</span>
         </div>
+      </li>
+    </ul>
+ 	<br>
+    <div class="savefields" id="savefields">
+       <input type="name" name="saveteam" placeholder="Team name">
+       <button type="button">Save Team</button>
+       <button type="button">Clear</button>
+    </div>
   </section>
 
   <div class="selecttext">
@@ -150,9 +158,10 @@
           </script>
         </select>
 
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
         <label>Type 1:</label>
         <select multiple="multiple" id="type1" name="type1">
+	  <option value="none" selected="selected">Any</option>
           <option value="normal">Normal</option>
           <option value="fire">Fire</option>
           <option value="fighting">Fighting</option>
@@ -181,10 +190,10 @@
           </script>
         </select>
 
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+        
         <label>Type 2:</label>
         <select multiple="multiple" id="type2" name="type2">
+	  <option value="none" selected="selected">Any</option>
           <option value="normal">Normal</option>
           <option value="fire">Fire</option>
           <option value="fighting">Fighting</option>
@@ -212,6 +221,7 @@
             });
           </script>
         </select>
+	<br><br>
         <input id="submit" type="submit" value="pokeSearch" name="type" onclick="clearBox('showData')">
         <script>
 	  function clearBox(elementID) {
@@ -221,10 +231,14 @@
       </form>
       
     </div>
-    <textarea id="pokeresults" rows="4" cols="50"></textarea>
+
     <div id="showData" class="showData"></div>
   </section>
 
+  <h2 class="json">JSON Data</h2>
+  <div class="resultsdiv">
+    <textarea id="pokeresults" class="pokeresults" rows="4" cols="50"></textarea>
+  </div>
 </body>
 <script>
   $(document).ready(function() {
@@ -250,11 +264,14 @@
 	  for(var i in response) {
 	    var id = response[i].name;
 	    var sprite = response[i].sprite;
+	    var poketype1 = response[i].type1;	
+	    var poketype2 = response[i].type2;
 	    
 	    var div = document.createElement("div");
 	    div.setAttribute("id", "pokemon");
-	    div.innerHTML = '<p> ID: ' + id + '</p>' + '<img src="' + sprite +'">';
-
+	    div.setAttribute("class", "pokeimg");
+	    div.innerHTML = '<p id = "pokedata" hidden> ID: ' + id + ' Type1: ' + poketype1 + ' Type2: ' + poketype2 + '</p>' + '<img src="' + sprite +'">';
+		
 	    $('#showData').append(div);
 	  }	    
         },
@@ -265,6 +282,30 @@
           alert('Exception:', exception);
         }
       });
+    });
+
+    $(document).on("click", "#pokemon", function(e) {
+      if($('#slot1').attr('src') == "pokeball.png") {
+        $('#pokename1').replaceWith($(this).find('p').html());
+        $('#slot1').attr("src", $(this).find('img').attr('src'));
+      } else if( $('#slot2').attr('src') == "pokeball.png") {
+	$('#pokename2').replaceWith($(this).find('p').html());
+        $('#slot2').attr("src", $(this).find('img').attr('src'));
+      } else if( $('#slot3').attr('src') == "pokeball.png") {
+        $('#pokename3').replaceWith($(this).find('p').html());
+        $('#slot3').attr("src", $(this).find('img').attr('src'));
+      } else if( $('#slot4').attr('src') == "pokeball.png") {
+        $('#pokename4').replaceWith($(this).find('p').html());
+        $('#slot4').attr("src", $(this).find('img').attr('src'));
+      } else if( $('#slot5').attr('src') == "pokeball.png") {
+	$('#pokename5').replaceWith($(this).find('p').html());
+        $('#slot5').attr("src", $(this).find('img').attr('src'));
+      } else if( $('#slot6').attr('src') == "pokeball.png") {
+	$('#pokename6').replaceWith($(this).find('p').html());
+        $('#slot6').attr("src", $(this).find('img').attr('src'));
+      } else {
+	console.log("ERROR");
+      }
     });
   });
 </script>

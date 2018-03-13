@@ -314,6 +314,11 @@ label > input:checked + img {
   margin: 0 auto;
 }
 
+.savefields {
+  text-align: center;
+  padding-bottom: 2%;
+}
+
 #team img {
   height: 100px;
 }
@@ -393,17 +398,35 @@ ul.picked li .info .type {
     line-height:1.125
 }
 
-#game-selector {
-  height: 200px;
-}
-
 .showData {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 10px;
 }
 
-.filters {
+.filters, .showData {
   padding-left: 7%;
 }
 
+.filters label {
+  width: 30px;
+  margin-left: 5px;
+}
+
+.showData {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.resultsdiv {
+  text-align: center;
+}
+
+.json {
+  text-align: center;
+}
+
+.pokeimg img {
+  border-radius: 50%;
+}
