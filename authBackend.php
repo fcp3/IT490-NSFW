@@ -63,7 +63,7 @@ function doRegister($username, $password, $email) {
         $response["user"] = $array["username"];
         $response["acct"] = $array["accountID"];
         $response["value"] = true;
-		return true;	
+		return $response;	
 	} elseif ($count == 1) {
         $response["value"] = false;
 		return $response;
