@@ -2,6 +2,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once('logging_php.inc.php');
 
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 //echo "authWebServer: " . PHP_EOL . var_dump($client) . PHP_EOL;
@@ -43,7 +44,8 @@ switch ($response["message"]["type"]) {
 			//echo "IN GOOD LOGIN CASE" . PHP_EOL;
 			header("Location: /pages/home.html");
 		} else {
-			echo "Login error!" . PHP_EOL;
+			echo  "Login error!" . PHP_EOL;
+			logger( __FILE__ . " : " . __LINE__ . " :error: " . "Failed Login Attempt");
 		}
 		break;
 	case "register":
@@ -60,10 +62,12 @@ switch ($response["message"]["type"]) {
 			header("Location: /pages/home.html");
 		} else {
 			echo "Registration error!" . PHP_EOL;
+			logger( __FILE__ . " : " . __LINE__ . " :error: " . "Failed Registration Attempt");
 		}		
 		break;
 	default:
 		echo "REQUEST ERROR!" . PHP_EOL;
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Request Type");
 }
 
 
