@@ -38,6 +38,9 @@ switch($request["type"]) {
 
 
 		$request["gameID"] = $_POST["gameselect"];
+		if(isset($_POST["name"])) {
+			$request["name"] = $_POST["name"];
+		}
 		if(isset($_POST["type1"])) {
 			$request["type1"] = $_POST["type1"];
 			$request["type2"] = $_POST["type2"];

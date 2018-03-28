@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="favicon.ico" rel="icon" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+  <link href="multiple-select/multiple-select.css" rel="stylesheet"/>
   <!
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -13,9 +14,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   ->
   <link rel="stylesheet" href="styles.css">
-  <script>
-
-  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +44,50 @@
       </p>
     </div>
   </section>
+
+  <div class="selecttext">
+    <h1>Search for a Pokemon</h1>
+  </div>
+  <section id="game-selector">
+    <div class="filters">
+
+      <form>
+
+        <label>Pick a game:</label>
+        <select multiple="multiple" id="gameselect" name="gameselect">
+          <option value="red-blue-yellow">Generation 1</option>
+          <option value="gold-silver-crystal">Generation 2</option>
+
+          <script src="multiple-select/multiple-select.js"></script>
+          <script>
+            var game = document.getElementById("gameselect");
+            $(game).multipleSelect({
+              single: true
+            });
+          </script>
+        </select>
+
+        <label>Pokemon Name:</label>
+        <input type="text" name="pokename" id="pokename">
+
+       
+        
+        <div id="submitdiv">
+          <input id="submit" type="submit" value="pokeSearch" name="type" onclick="clearBox('showData')">
+        </div>
+        <script>
+          function clearBox(elementID) {
+            document.getElementById("showData").innerHTML = "";
+          }
+        </script>
+      </form>
+      
+    </div>
+
+    <div id="showData" class="showData"></div>
+  </section>
+
+
 </body>
 </html>
 <script>
@@ -66,4 +109,131 @@
 
   $('#userPoke').text(getCookie("userID") + "'s PokeMon");
   $('#userTeam').text(getCookie("userID") + "'s Teams");
+
+  $('#submit').on('click', function(e){
+      e.preventDefault();
+      var game = $('#gameselect').val();
+      var pokename = $('#pokename').val();
+      var type = "pokeSearch";
+      $.ajax({
+        type:'POST',
+        url:'../dmz/dmzClientTest.php',
+        datatype: 'json',
+        data:{type:type, gameselect:game, name:pokename},
+        success: function(data){
+          $('#pokeresults').text(data);
+          var response;
+          response = JSON.parse(data);
+          if(response.length < 1) {
+            var empty = document.createElement("h1");
+              empty.innerHTML = "Pokemon Could Not Be Found! Search Again!";
+            $('#showData').append(empty);
+          }
+          for(var i in response) {
+            var id = response[i].name;
+            var sprite = response[i].sprite;
+            var poketype1 = response[i].type1;  
+            var poketype2 = response[i].type2;
+            var pokeID = response[i].pokeID;
+            var hp = response[i].hp;
+            var speed = response[i].speed;
+            var att = response[i].att;
+            var def = response[i].def;
+            var spAtt = response[i].spAtt;
+            var spDef = response[i].spDef;
+           
+            var div = document.createElement("div");
+            div.setAttribute("id", "pokemon");
+            div.setAttribute("class", "pokeimg");
+
+            var img = document.createElement("img");
+            img.setAttribute('src', sprite);
+            div.appendChild(img);
+  
+            var p = document.createElement("p");
+            p.setAttribute("id", "pokedata");
+            p.setAttribute('hidden', '');
+            p.setAttribute('value', pokeID);
+            p.innerHTML ='ID: '+id+' Type1: '+poketype1+' Type2: '+poketype2;
+
+            var innerDiv = document.createElement("div");
+            innerDiv.setAttribute("id", "pokeForm");
+
+            var lvlLbl = document.createElement("label");
+            lvlLbl.innerHTML = "Lvl:";
+            var lvlIn = document.createElement("input");
+            lvlIn.setAttribute("id", "pokeLvl");
+            lvlIn.setAttribute("type", "text");
+            lvlIn.setAttribute("placeholder", "1");
+            innerDiv.appendChild(lvlLbl);
+            innerDiv.appendChild(lvlIn);
+
+            var hpLbl = document.createElement("label");
+            hpLbl.innerHTML = "HP:";
+            var hpIn = document.createElement("input");
+            hpIn.setAttribute("id", "pokeHp");
+            hpIn.setAttribute("type", "text");
+            hpIn.setAttribute("placeholder", hp);
+            innerDiv.appendChild(hpLbl);
+            innerDiv.appendChild(hpIn);
+
+            var spdLbl = document.createElement("label");
+            hpLbl.innerHTML = "Speed:";
+            var spdIn = document.createElement("input");
+            spdIn.setAttribute("id", "pokeSpd");
+            spdIn.setAttribute("type", "text");
+            spdIn.setAttribute("placeholder", speed);
+            innerDiv.appendChild(spdLbl);
+            innerDiv.appendChild(spdIn);
+
+            var attLbl = document.createElement("label");
+            attLbl.innerHTML = "Attack:";
+            var attIn = document.createElement("input");
+            attIn.setAttribute("id", "pokeAtt");
+            attIn.setAttribute("type", "text");
+            attIn.setAttribute("placeholder", att);
+            innerDiv.appendChild(attLbl);
+            innerDiv.appendChild(attIn);
+
+            var defLbl = document.createElement("label");
+            defLbl.innerHTML = "Defense:";
+            var defIn = document.createElement("input");
+            defIn.setAttribute("id", "pokeDef");
+            defIn.setAttribute("type", "text");
+            defIn.setAttribute("placeholder", def);
+            innerDiv.appendChild(defLbl);
+            innerDiv.appendChild(defIn);
+
+            var spAttLbl = document.createElement("label");
+            spAttLbl.innerHTML = "Sp. Attack:";
+            var spAttIn = document.createElement("input");
+            spAttIn.setAttribute("id", "pokeSpAtt");
+            spAttIn.setAttribute("type", "text");
+            spAttIn.setAttribute("placeholder", spAtt);
+            innerDiv.appendChild(spAttLbl);
+            innerDiv.appendChild(spAttIn);
+
+            var spDefLbl = document.createElement("label");
+            spDefLbl.innerHTML = "Sp. Defense:";
+            var spDefIn = document.createElement("input");
+            spDefIn.setAttribute("id", "pokeSpDef");
+            spDefIn.setAttribute("type", "text");
+            spDefIn.setAttribute("placeholder", spDef);
+            innerDiv.appendChild(spDefLbl);
+            innerDiv.appendChild(spDefIn);
+
+            div.appendChild(innerDiv);
+            div.appendChild(p);
+  
+            $('#showData').append(div);
+          }     
+        },
+        error: function(jqxhr, textStatus, exception) {
+          console.log(exception);
+          console.log(textStatus);
+          console.log(jqxhr);
+          alert('Exception:', exception);
+        }
+      });
+    });
 </script>
