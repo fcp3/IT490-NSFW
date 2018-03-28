@@ -64,7 +64,6 @@ html, body {
 .registercontainer, .logincontainer {
   margin-left: auto;
   margin-right: auto;
-  padding-right: 15px;
 
 }
 
@@ -212,14 +211,24 @@ body {
   margin: 0 10%;
 }
 
+.registercontainer {
+  text-align: center;
+}
+
 .registercontainer input[type=text], .registercontainer input[type=password] {
   width: 30%;
   padding: 15px;
-  margin: 5px 125px 22px 2px;
+  margin: 5px 1px 22px 2px;
   display: inline-block;
   border: none;
   background: #f1f1f1;
   border-radius: 4px;
+}
+
+.registercontainer label {
+  display: inline-block;
+  text-align: right;
+  width: 210px;
 }
 
 .logbutton {
@@ -310,6 +319,12 @@ label > input:checked + img {
 #team, #game-selector {
   padding-top: 20px;
   border: 1px solid #d3d3d3;
+  width: 85%;
+  margin: 0 auto;
+}
+
+#about {
+  padding-top: 20px;
   width: 85%;
   margin: 0 auto;
 }

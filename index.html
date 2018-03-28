@@ -12,7 +12,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   ->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages/styles.css">
   <script>
     function checkPass() {
       var pass1 = document.getElementById("pass1");
@@ -44,6 +44,9 @@
             <input type="text" placeholder="Email address" name="email" id="loginemail" required>
             <br>
             <br>
+	    <input type="text" placeholder="Username" name="username" id="loginusername">
+            <br>
+            <br>
             <input type="password" placeholder="Password" name="psw" id="loginpass" required>
             <br>
             <br>
@@ -53,7 +56,7 @@
 		  </form>
         </div>
       </div>
-      <a href="#about">About</a>
+      <a href="pages/about.html">About</a>
     </div>
   </div>
 
@@ -81,13 +84,16 @@
     <br><br>
     <form action="/authWebServer.php" method="post">
       <div align ="center" class ="registercontainer">
-        <label for="email"><b>Email</b></label>
+        
         <input type="text" placeholder="Enter Email" name="email" id="email" >
         <br>
-        <label for="psw"><b>Password</b></label>
+
+	<input type="text" placeholder="Enter Username" name="username" id="reg" >
+        <br>
+        
         <input type="password" placeholder="Enter Password" name="psw" id="pass1" >
         <br>
-        <label for="psw-repeat"><b>Repeat Password</b></label>
+       
         <input type="password" placeholder="Repeat Password" name="psw-repeat" id="pass2" onkeyup="checkPass(); return false;" >
         <br>
         <button type="submit" name="type" class="regbutton" style="vertical-align:middle" value="register">
