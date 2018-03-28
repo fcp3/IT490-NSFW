@@ -170,6 +170,7 @@ function userCaught($request, $conn) {
 			$caughtPoke["spAtt"] = $data["sp_att"];
 			$caughtPoke["def"] = $data["defense"];
 			$caughtPoke["spDef"] = $data["sp_def"];
+			$caughtPoke["sprite"] = $data["sprite"];
 			array_push($caught, $caughtPoke);
 		}
 		//echo var_dump($caught);

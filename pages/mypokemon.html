@@ -13,9 +13,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   ->
   <link rel="stylesheet" href="styles.css">
-  <script>
-
-  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +43,8 @@
       </p>
     </div>
   </section>
+
+  <section id="caught"></section>
 </body>
 </html>
 <script>
@@ -66,4 +66,144 @@
 
   $('#userPoke').text(getCookie("userID") + "'s PokeMon");
   $('#userTeam').text(getCookie("userID") + "'s Teams");
+
+  $(document).ready(function() {
+    var acctID = getCookie("acctID");
+    var type = "userCaught";
+    $.ajax({
+      type:'POST',
+        url:'../dmz/dmzClientTest.php',
+        datatype: 'json',
+        data:{type:type, accountID:acctID},
+        success: function(data){
+          var response;
+          response = JSON.parse(data);
+          if(response.length < 1) {
+            var empty = document.createElement("h1");
+              empty.innerHTML = "No Caught Pokemon! Go to the Search page to add some!";
+            $('#caught').append(empty);
+          }
+          for(var i in response) {
+            var id = response[i].name;
+            var sprite = response[i].sprite;
+            var poketype1 = response[i].type1;  
+            var poketype2 = response[i].type2;
+            var pokeID = response[i].pokeID;
+            var lvl = response[i].level;
+            var hp = response[i].hp;
+            var speed = response[i].speed;
+            var att = response[i].att;
+            var def = response[i].def;
+            var spAtt = response[i].spAtt;
+            var spDef = response[i].spDef;
+           
+            var div = document.createElement("div");
+            div.setAttribute("id", "pokemon");
+            div.setAttribute("class", "pokeimg");
+
+            var innerDiv = document.createElement("div");
+            innerDiv.setAttribute("id", "pokeStats");
+
+            var img = document.createElement("img");
+            img.setAttribute('id', "pokesprite");
+            img.setAttribute('src', sprite);
+            div.appendChild(img);
+  
+            var p = document.createElement("p");
+            p.setAttribute("id", "pokedata");
+            p.setAttribute('hidden', '');
+            p.setAttribute('value', pokeID);
+            p.innerHTML ='ID: '+id+' Type1: '+poketype1+' Type2: '+poketype2;
+
+            var lvlLbl = document.createElement("label");
+            lvlLbl.innerHTML = "Lvl:";
+            var lvlData = document.createElement("p");
+            lvlData.setAttribute("id", "pokeLvl");
+            //lvlData.setAttribute("type", "text");
+            //lvlData.setAttribute("placeholder", "1");
+            lvlData.innerHTML = lvl;
+            innerDiv.appendChild(lvlLbl);
+            innerDiv.appendChild(lvlData);
+
+            var hpLbl = document.createElement("label");
+            hpLbl.innerHTML = "HP:";
+            var hpData = document.createElement("p");
+            hpData.setAttribute("id", "pokeHp");
+            //hpData.setAttribute("type", "text");
+            //hpData.setAttribute("placeholder", hp);
+            hpData.innerHTML = hp;
+            innerDiv.appendChild(hpLbl);
+            innerDiv.appendChild(hpData);
+
+            var spdLbl = document.createElement("label");
+            spdLbl.innerHTML = "Speed:";
+            var spdData = document.createElement("p");
+            spdData.setAttribute("id", "pokeSpd");
+            //spdData.setAttribute("type", "text");
+            //spdData.setAttribute("placeholder", speed);
+            spdData.innerHTML = speed;
+            innerDiv.appendChild(spdLbl);
+            innerDiv.appendChild(spdData);
+
+            var attLbl = document.createElement("label");
+            attLbl.innerHTML = "Attack:";
+            var attData = document.createElement("p");
+            attData.setAttribute("id", "pokeAtt");
+            //attData.setAttribute("type", "text");
+            //attData.setAttribute("placeholder", att);
+            attData.innerHTML = att;
+            innerDiv.appendChild(attLbl);
+            innerDiv.appendChild(attData);
+
+            var defLbl = document.createElement("label");
+            defLbl.innerHTML = "Defense:";
+            var defData = document.createElement("p");
+            defData.setAttribute("id", "pokeDef");
+            //defData.setAttribute("type", "text");
+            //defData.setAttribute("placeholder", def);
+            defData.innerHTML = def;
+            innerDiv.appendChild(defLbl);
+            innerDiv.appendChild(defData);
+
+            var spAttLbl = document.createElement("label");
+            spAttLbl.innerHTML = "Sp. Attack:";
+            var spAttData = document.createElement("p");
+            spAttData.setAttribute("id", "pokeSpAtt");
+            //spAttData.setAttribute("type", "text");
+            //spAttData.setAttribute("placeholder", spAtt);
+            spAttData.innerHTML = spAtt;
+            innerDiv.appendChild(spAttLbl);
+            innerDiv.appendChild(spAttData);
+
+            var spDefLbl = document.createElement("label");
+            spDefLbl.innerHTML = "Sp. Defense:";
+            var spDefData = document.createElement("p");
+            spDefData.setAttribute("id", "pokeSpDef");
+            //spDefData.setAttribute("type", "text");
+            //spDefData.setAttribute("placeholder", spDef);
+            spDefData.innerHTML = spDef;
+            innerDiv.appendChild(spDefLbl);
+            innerDiv.appendChild(spDefData);
+
+            var edit = document.createElement("button");
+            edit.setAttribute("type", "button");
+            edit.setAttribute("id", "savepoke");
+            edit.innerHTML = "Edit Pokemon";
+
+            div.appendChild(innerDiv);
+            div.appendChild(p);
+            innerDiv.appendChild(edit);
+  
+            $('#caught').append(div);
+          }     
+        },
+        error: function(jqxhr, textStatus, exception) {
+          console.log(exception);
+          console.log(textStatus);
+          console.log(jqxhr);
+          alert('Exception:', exception);
+        }
+      });
+
+  });
 </script>

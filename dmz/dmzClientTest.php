@@ -63,7 +63,7 @@ switch($request["type"]) {
 			- accountID
 		*/
 
-		$request["accountID"] = 1;
+		$request["accountID"] = $_POST["accountID"];
 
 		//returns json of all caught pokemon
 		break;
