@@ -146,18 +146,19 @@
             div.setAttribute("id", "pokemon");
             div.setAttribute("class", "pokeimg");
 
+            var innerDiv = document.createElement("div");
+            innerDiv.setAttribute("id", "pokeForm");
+
             var img = document.createElement("img");
+            img.setAttribute('id', "pokesprite");
             img.setAttribute('src', sprite);
-            div.appendChild(img);
+            innerDiv.appendChild(img);
   
             var p = document.createElement("p");
             p.setAttribute("id", "pokedata");
             p.setAttribute('hidden', '');
             p.setAttribute('value', pokeID);
             p.innerHTML ='ID: '+id+' Type1: '+poketype1+' Type2: '+poketype2;
-
-            var innerDiv = document.createElement("div");
-            innerDiv.setAttribute("id", "pokeForm");
 
             var lvlLbl = document.createElement("label");
             lvlLbl.innerHTML = "Lvl:";
@@ -222,8 +223,14 @@
             innerDiv.appendChild(spDefLbl);
             innerDiv.appendChild(spDefIn);
 
+            var submit = document.createElement("button");
+            submit.setAttribute("type", "button");
+            submit.setAttribute("id", "savepoke");
+            submit.innerHTML = "Save Pokemon";
+
             div.appendChild(innerDiv);
             div.appendChild(p);
+            innerDiv.appendChild(submit);
   
             $('#showData').append(div);
           }     
@@ -236,4 +243,54 @@
         }
       });
     });
+
+  $(document).on("click", "#savepoke", function(e) {
+    var type = "addCaught";
+    var acctID = getCookie("acctID");
+    var game = $('#gameselect').val();
+    var name = $('#pokename').val();
+    var lvl = $('#pokeLvl').val();
+    var hp = $('#pokeHp').val();
+    var spd = $('#pokeSpd').val();
+    var att = $('#pokeAtt').val();
+    var spAtt = $('#pokeSpAtt').val();
+    var def = $('#pokeDef').val();
+    var spDef = $('#pokeSpDef').val();
+    var sprite = document.getElementById("pokesprite").getAttribute("src");
+    console.log(type);
+    console.log(acctID);
+    console.log(game);
+    console.log(name);
+    console.log(lvl);
+    console.log(hp);
+    console.log(spd);
+    console.log(att);
+    console.log(spAtt);
+    console.log(def);
+    console.log(spDef);
+    console.log(sprite);
+    $.ajax({
+      type:'POST',
+      url:'../dmz/dmzClientTest.php',
+      datatype:'json',
+      data:{type:type, gameID:game, accountID:acctID, name:name, sprite:sprite, level:lvl, hp:hp, speed:spd, att:att, spAtt:spAtt, def:def, spDef:spDef},
+      success: function(data){
+        console.log(data);
+        response = JSON.parse(data);
+        console.log(response);
+        if(response == true) {
+          var success = document.createElement("h1");
+          success.innerHTML = "Pokemon Added! Search another!";
+          $('#pokeForm').replaceWith(success);
+        } else {
+          var fail = document.createElement("h1");
+          fail.innerHTML = "Couldn't add Pokemon! Try again?";
+          $('#pokeForm').replaceWith(fail);
+        }
+      },
+      error: function(data){
+        console.log(data);
+      }
+    });
+  });
 </script>

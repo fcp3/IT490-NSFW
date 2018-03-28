@@ -249,8 +249,9 @@ function addCaught($request, $conn) {
 		$pokemon = $request["pokemonID"];
 		$default["pokemonID"] = $pokemon;
 	}
+	$sprite = $request["sprite"];
 
-	if(isset($request["level"])) {
+	if($request["level"] > 0) {
 		$level = $request["level"];
 		$hp = $request["hp"];
 		$speed = $request["speed"];
@@ -258,11 +259,12 @@ function addCaught($request, $conn) {
 		$spAtt = $request["spAtt"];
 		$def = $request["def"];
 		$spDef = $request["spDef"];
-	}
-	$default["gameID"] = $game;
-	$defaultPoke = json_decode(pokeSearch($default, $conn));
-	foreach($defaultPoke as $poke) {
-		if(!isset($request["level"])){
+	} else {
+		$default["gameID"] = $game;
+		$defaultPoke = json_decode(pokeSearch($default, $conn));
+
+		foreach($defaultPoke as $poke) {
+			
 			$level = $poke->level;
 			$hp = $poke->hp;
 			$speed = $poke->speed;
@@ -270,15 +272,15 @@ function addCaught($request, $conn) {
 			$spAtt = $poke->spAtt;
 			$def = $poke->def;
 			$spDef = $poke->spDef;
+			
 		}
-		$sprite = $poke->sprite; 
 	}
 
 	echo "adding to Caught: " . $pokemon . " " . $level . " " . $hp . " " . $speed . " " . $att . " " . $spAtt . " " . $def . " " . $spDef . PHP_EOL;
 
 
 	if($query = mysqli_prepare($conn, "INSERT INTO Caught (accountID, gameID, name, level, hp, speed, attack, defense, sp_att, sp_def, sprite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-		$query->bind_param("issiiiiiiis", $acct, $game, $pokemon, $level, $hp, $speed, $att, $def, $spAtt, $spDef, $sprite);
+		$query->bind_param("issiiiiiiis", $acct, $game[0], $pokemon, $level, $hp, $speed, $att, $def, $spAtt, $spDef, $sprite);
 		$query->execute();
 		echo "INSERTED INTO Caught  " .PHP_EOL;
 		echo "ROWS AFFECTED: " . $query->affected_rows . PHP_EOL;
@@ -330,7 +332,7 @@ function requestProcessor($request) {
 		case "generateTeam":
 			break;
 		case "addCaught":
-			$result = addCaught($request, $conn);
+			$result = json_encode(addCaught($request, $conn));
 			break;
 		default:
 			echo "ERROR: BAD QUERY TYPE\n";

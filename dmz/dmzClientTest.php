@@ -143,6 +143,18 @@ switch($request["type"]) {
 		$request["spDef"] = 255;
 		*/
 
+		$request["accountID"] = $_POST["accountID"];
+		$request["gameID"] = $_POST["gameID"];
+		$request["name"] = $_POST["name"];
+		$request["level"] = $_POST["level"];
+		$request["hp"] = $_POST["hp"];
+		$request["speed"] = $_POST["speed"];
+		$request["att"] = $_POST["att"];
+		$request["spAtt"] = $_POST["spAtt"];
+		$request["def"] = $_POST["def"];
+		$request["spDef"] = $_POST["spDef"];
+		$request["sprite"] = $_POST["sprite"];
+
 		//returns true or false on successful/failed insert
 		break;
 	default:
