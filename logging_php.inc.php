@@ -8,7 +8,7 @@ function logger($error){
 
 
 $client = new rabbitMQClient("logServer.ini","logServer");
-echo var_dump($client);
+//echo var_dump($client);
 
 
 
