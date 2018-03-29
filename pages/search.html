@@ -48,8 +48,8 @@
   <div class="selecttext">
     <h1>Search for a Pokemon</h1>
   </div>
-  <section id="game-selector">
-    <div class="filters">
+  <section id="searchselector">
+    <div class="searchfilter">
 
       <form>
 
@@ -66,8 +66,8 @@
             });
           </script>
         </select>
-
-        <label>Pokemon Name:</label>
+	
+        <label class = "pokename">Pokemon Name:</label>
         <input type="text" name="pokename" id="pokename">
 
        
@@ -84,10 +84,11 @@
       
     </div>
 
-    <div id="showData" class="showData"></div>
+    <div id="searchData" class="searchData"></div>
   </section>
 
-
+  <footer id="footer">
+  </footer>
 </body>
 </html>
 <script>
@@ -144,10 +145,11 @@
            
             var div = document.createElement("div");
             div.setAttribute("id", "pokemon");
-            div.setAttribute("class", "pokeimg");
+            div.setAttribute("class", "pokemonimg");
 
             var innerDiv = document.createElement("div");
             innerDiv.setAttribute("id", "pokeForm");
+	    innerDiv.setAttribute("class", "pokeForm");
 
             var img = document.createElement("img");
             img.setAttribute('id', "pokesprite");
@@ -179,7 +181,7 @@
             innerDiv.appendChild(hpIn);
 
             var spdLbl = document.createElement("label");
-            hpLbl.innerHTML = "Speed:";
+            spdLbl.innerHTML = "Speed:";
             var spdIn = document.createElement("input");
             spdIn.setAttribute("id", "pokeSpd");
             spdIn.setAttribute("type", "text");
@@ -232,7 +234,7 @@
             div.appendChild(p);
             innerDiv.appendChild(submit);
   
-            $('#showData').append(div);
+            $('#searchData').append(div);
           }     
         },
         error: function(jqxhr, textStatus, exception) {

@@ -99,7 +99,7 @@
            
             var div = document.createElement("div");
             div.setAttribute("id", "pokemon");
-            div.setAttribute("class", "pokeimg");
+            div.setAttribute("class", "pokemonimg");
 
             var innerDiv = document.createElement("div");
             innerDiv.setAttribute("id", "pokeStats");
@@ -184,15 +184,15 @@
             spDefData.innerHTML = spDef;
             innerDiv.appendChild(spDefLbl);
             innerDiv.appendChild(spDefData);
-
-            var edit = document.createElement("button");
-            edit.setAttribute("type", "button");
-            edit.setAttribute("id", "savepoke");
-            edit.innerHTML = "Edit Pokemon";
+            
+            //var edit = document.createElement("button");
+            //edit.setAttribute("type", "button");
+            //edit.setAttribute("id", "savepoke");
+            //edit.innerHTML = "Edit Pokemon";
 
             div.appendChild(innerDiv);
             div.appendChild(p);
-            innerDiv.appendChild(edit);
+            //innerDiv.appendChild(edit);
   
             $('#caught').append(div);
           }     

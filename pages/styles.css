@@ -323,6 +323,40 @@ label > input:checked + img {
   margin: 0 auto;
 }
 
+#searchselector {
+  padding-top: 20px;
+  border: 1px solid #d3d3d3;
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.pokeForm input {
+  margin-right: 10px;
+}
+
+.pokeForm {
+  padding-left: 7%;
+}
+
+.pokeForm {
+  margin-bottom: 20px;
+}
+
+#divteam {
+  padding-top: 20px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+#innerpoke {
+  padding-left: 20px;
+}
+
+#innerpoke p {
+  text-align: center;
+}
+
 #about {
   padding-top: 20px;
   width: 85%;
@@ -428,6 +462,14 @@ ul.picked li .info .type {
   margin-left: 5px;
 }
 
+.searchfilter {
+  padding-left: 7%;
+}
+
+.pokename {
+  margin-left: 2%;
+}
+
 .showData {
   display: flex;
   flex-direction: row;
@@ -457,4 +499,31 @@ ul.picked li .info .type {
 
 #submitdiv {
   margin-bottom: 5px;
+}
+
+.footer {
+  padding-top: 20px;
+}
+
+.pokeForm input {
+  width: 30px;
+}
+
+.pokeForm img {
+  display: block;
+}
+
+#pokeStats p {
+  display: inline;
+  margin-right: 10px;
+}
+
+#caught {
+  width: 85%;
+  margin-left: 7%;
+  margin-bottom: 20px;
+}
+
+#savepoke {
+  margin-left: 5px;
 }

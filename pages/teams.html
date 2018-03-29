@@ -87,7 +87,7 @@
           for(var i in response) {
             console.log(response[i]);
             var div = document.createElement("div");
-            div.setAttribute("id", "team");
+            div.setAttribute("id", "divteam");
             div.setAttribute("class", "showData");
 
             if(response[i].length == 0) {
@@ -109,6 +109,7 @@
               var name = response[i][j][0].name;
               var sprite = response[i][j][0].sprite;
               var innerDiv = document.createElement("div");
+	      innerDiv.setAttribute("id", "innerpoke");
               
               console.log(name);
               console.log(sprite);
