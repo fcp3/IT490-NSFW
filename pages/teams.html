@@ -26,7 +26,7 @@
     <a href="search.html">Search</a>
     <a href="mypokemon.html" id="userPoke"> My PokeMon</a>
     <a href="about.html">About</a>
-    <button class="logout" id="logout">Logout</button>
+    <button class="logout" id="logout" onclick="del_cookie('email')">Logout</button>
   </div>
 
   <section id="home">
@@ -87,7 +87,7 @@
           for(var i in response) {
             console.log(response[i]);
             var div = document.createElement("div");
-            div.setAttribute("id", "team");
+            div.setAttribute("id", "divteam");
             div.setAttribute("class", "showData");
 
             if(response[i].length == 0) {
@@ -109,6 +109,7 @@
               var name = response[i][j][0].name;
               var sprite = response[i][j][0].sprite;
               var innerDiv = document.createElement("div");
+	      innerDiv.setAttribute("id", "innerpoke");
               
               console.log(name);
               console.log(sprite);
@@ -133,7 +134,22 @@
           console.log(jqxhr);
           alert("ERROR IN PULLING USER TEAMS");
         }
-      });
- 
+      }); 
   });
 </script>
+<script>
+function del_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'userID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'acctID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'email=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+
+    console.log(getCookie('userID'));
+    console.log(getCookie('acctID'));
+    console.log(getCookie('email'));
+
+    window.location.replace("../index.html");
+
+}
+</script>
+
