@@ -42,7 +42,8 @@ function doRegister($username, $password, $email) {
 	$conn = mysqli_connect("localhost", "root", "1234", "SlowPokeBase");
     $response = array();
 	if(!$conn) {
-		die("ERROR: Could not connect:" . mysqli_connect_error());
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . mysqli_connect_error());
+   		 die("ERROR: Could not connect." . mysqli_connect_error());
 	} else {
 		echo "SUCCESS: Connected to db";	
 	}
@@ -57,6 +58,13 @@ function doRegister($username, $password, $email) {
 
         $query = "SELECT * from Account where username = '$username' AND password = '$password'";
         $result = mysqli_query($conn, $query);
+	if(!$result) {
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Query");
+   		
+	} else {
+		echo "SUCCESS: Good Query";	
+	}
+
         $count = mysqli_num_rows($result);
         $array = mysqli_fetch_assoc($result);
         $response["email"] = $array["email"];
@@ -97,6 +105,9 @@ function requestProcessor($request)
 		$response["type"] = "register";
 		$response["result"] = doRegister($request['username'], $request['password'], $request['message']);
 		break;
+	default: 
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Request Type");
+	
   	}
 	echo var_dump($response);
 	$result = array();

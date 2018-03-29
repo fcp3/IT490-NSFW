@@ -3,6 +3,7 @@
 require_once('../path.inc');
 require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
+require_once('../logging_php.inc.php')
 
 $client = new rabbitMQClient("../queryServer.ini","queryServer");
 //echo var_dump($_POST);
@@ -158,6 +159,7 @@ switch($request["type"]) {
 		//returns true or false on successful/failed insert
 		break;
 	default:
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Query Type");
 		echo "ERROR: BAD QUERY TYPE";
 		break;
 }
