@@ -3,6 +3,7 @@
 require_once('../path.inc');
 require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
+require_once('../logging_php.inc.php')
 
 function pokeSearch($request, $conn) {
 	echo "running pokeSearch funtion\n";
@@ -36,6 +37,7 @@ function pokeSearch($request, $conn) {
 						return "THERE WAS AN ERROR SEARCHING POKEMON BY NAME\n";
 					}*/	
 				} else {
+					logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Pokemon Name Search");
 					echo "ERROR HERE IN QUERYING POKEMON BY NAME: " . $conn->error . PHP_EOL;
 				}
 
@@ -50,6 +52,7 @@ function pokeSearch($request, $conn) {
 					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
 
 				} else {
+					logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Pokemon Type Search");
 					echo "ERROR RUNNING POKESEARCH BY TYPE\n";
 				}
 			} else {
@@ -60,6 +63,7 @@ function pokeSearch($request, $conn) {
 					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
 
 				} else {
+					logger( __FILE__ . " : " . __LINE__ . " :error: " . "Failed To Run Search For All Pokemon");
 					echo "ERROR RUNNING POKESEARCH FOR ALL POKEMON IN GAME\n";
 				}
 				
@@ -176,6 +180,7 @@ function userCaught($request, $conn) {
 		$result = json_encode($caught);
 	} else {
 		$query->close();
+		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Failed To Obtain User's Caught Pokemon");
 		return "test error val for userCaught";
 	}
 	$query->close();
