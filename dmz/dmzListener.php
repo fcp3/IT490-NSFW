@@ -3,7 +3,7 @@
 require_once('../path.inc');
 require_once('../get_host_info.inc');
 require_once('../rabbitMQLib.inc');
-require_once('../logging_php.inc.php')
+require_once('../logging_php.inc.php');
 
 function pokeSearch($request, $conn) {
 	echo "running pokeSearch funtion\n";
@@ -18,6 +18,7 @@ function pokeSearch($request, $conn) {
 				echo "setting null type\n";
 				$request["type2"][0] == null;
 			}
+
 			if(isset($request["name"]) || isset($request["pokeID"])){
 				if(isset($request["name"])) {
 					$pokeName = $request["name"];
@@ -31,6 +32,9 @@ function pokeSearch($request, $conn) {
 					$query->bind_param("ssi", $pokeGame, $pokeName, $pokeID);
 					$query->execute();
 					$query->bind_result($pokeID, $name, $t1, $t2, $att, $def, $spAtt, $spDef, $spd, $hp, $sprite, $lvl);
+					if($request["name"] == "") {
+						logger( __FILE__ . " : " . __LINE__ . " :error: " . "NO POKEMON NAME ENTERED");
+					}
 					echo "AFFECTED ROWS: " . $query->affected_rows . PHP_EOL;
 					/*if($query->affected_rows < 0) {
 						echo "ERROR: " . $query->error;

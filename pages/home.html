@@ -265,6 +265,7 @@
           $('#pokeresults').text(data);
           var response;
           response = JSON.parse(data);
+          console.log(response);
           for(var i in response) {
             var id = response[i].name;
             var sprite = response[i].sprite;
