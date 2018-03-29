@@ -296,3 +296,18 @@
     });
   });
 </script>
+<script>
+function del_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'userID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'acctID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'email=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+
+    console.log(getCookie('userID'));
+    console.log(getCookie('acctID'));
+    console.log(getCookie('email'));
+
+    window.location.replace("../index.html");
+
+}
+</script>
