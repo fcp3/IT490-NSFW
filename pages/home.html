@@ -258,7 +258,7 @@
       console.log(type1);
       $.ajax({
         type:'POST',
-        url:'../dmz/dmzClientTest.php',
+        url:'../RMQ/dmzClientTest.php',
         datatype: 'json',
         data:{type:type, gameselect:game, type1:type1, type2:type2},
         success: function(data){
@@ -356,7 +356,7 @@
       console.log(pokeArr);
       $.ajax({
         type:'POST',
-        url:'../dmz/dmzClientTest.php',
+        url:'../RMQ/dmzClientTest.php',
         datatype: 'json',
         data:{type:type, gameID:game, accountID:acctID, teamName:teamName, pokemonIDs:pokeArr},
         success: function(data){

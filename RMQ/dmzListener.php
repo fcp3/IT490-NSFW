@@ -1,9 +1,10 @@
 <?php
 
-require_once('../path.inc');
-require_once('../get_host_info.inc');
-require_once('../rabbitMQLib.inc');
-require_once('../logging_php.inc.php');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
+require_once('../include/logger.inc');
+include('../include/db.inc');
 
 function pokeSearch($request, $conn) {
 	echo "running pokeSearch funtion\n";
@@ -353,8 +354,8 @@ function requestProcessor($request) {
 	return $result;
 
 }
-
-$server = new rabbitMQServer("../queryServer.ini","queryServer");
+echo $host . $db . $user . $pass . PHP_EOL;
+$server = new rabbitMQServer("../include/queryServer.ini","queryServer");
 echo var_dump($server);
 
 $server->process_requests('requestProcessor');

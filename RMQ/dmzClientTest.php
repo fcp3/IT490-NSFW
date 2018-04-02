@@ -1,11 +1,11 @@
 <?php
 
-require_once('../path.inc');
-require_once('../get_host_info.inc');
-require_once('../rabbitMQLib.inc');
-require_once('../logging_php.inc.php');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
+require_once('../include/logger.inc');
 
-$client = new rabbitMQClient("../queryServer.ini","queryServer");
+$client = new rabbitMQClient("../include/queryServer.ini","queryServer");
 //echo var_dump($_POST);
 
 //Starter database can be found in SlowPokeBasev2.sql

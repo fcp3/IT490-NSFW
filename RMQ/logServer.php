@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
 
 
 
@@ -14,7 +14,7 @@ function logProcessor($log)
 
 }
 
-$server = new rabbitMQServer("logServer.ini","logServer");
+$server = new rabbitMQServer("../include/logServer.ini","logServer");
 echo var_dump($server);
 
 $server->process_requests('logProcessor');

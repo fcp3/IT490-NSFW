@@ -118,7 +118,7 @@
       var type = "pokeSearch";
       $.ajax({
         type:'POST',
-        url:'../dmz/dmzClientTest.php',
+        url:'../RMQ/dmzClientTest.php',
         datatype: 'json',
         data:{type:type, gameselect:game, name:pokename},
         success: function(data){
@@ -273,7 +273,7 @@
     console.log(sprite);
     $.ajax({
       type:'POST',
-      url:'../dmz/dmzClientTest.php',
+      url:'../RMQ/dmzClientTest.php',
       datatype:'json',
       data:{type:type, gameID:game, accountID:acctID, name:name, sprite:sprite, level:lvl, hp:hp, speed:spd, att:att, spAtt:spAtt, def:def, spDef:spDef},
       success: function(data){

@@ -1,10 +1,9 @@
-#!/usr/bin/php
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
-require_once('creds.inc');
-require_once('logging_php.inc.php');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
+require_once('../include/creds.inc');
+require_once('../include/logger.inc');
 
 function doLogin($username,$password) {
   //connecting to the sample database
@@ -117,7 +116,7 @@ function requestProcessor($request)
   	return $result;
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+$server = new rabbitMQServer("../include/testRabbitMQ.ini","testServer");
 echo var_dump($server);
 
 $server->process_requests('requestProcessor');

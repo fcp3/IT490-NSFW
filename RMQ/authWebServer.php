@@ -1,10 +1,10 @@
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
-require_once('logging_php.inc.php');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
+require_once('../include/logger.inc');
 
-$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+$client = new rabbitMQClient("../include/testRabbitMQ.ini","testServer");
 //echo "authWebServer: " . PHP_EOL . var_dump($client) . PHP_EOL;
 
 if (isset($argv[1]))

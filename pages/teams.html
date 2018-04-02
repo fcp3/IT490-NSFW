@@ -79,7 +79,7 @@
       console.log(acctID);
       $.ajax({
         type:'POST',
-        url:'../dmz/dmzClientTest.php',
+        url:'../RMQ/dmzClientTest.php',
         datatype: 'json',
         data:{type:type, acctID:acctID},
         success: function(data) {
