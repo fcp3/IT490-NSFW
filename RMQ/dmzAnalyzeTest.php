@@ -8,13 +8,20 @@ include('../include/db.inc');
 function teamAnalyze($request, $conn) {
 	echo "running team analyzer\n";
 	$teamPokes = $request["pokemon"];
+
+	//array for holding types of each pokemon in team
 	$teamTypes = array();
+
+	//arrays for holding stats for team matchups
 	$teamWeaknesses = array();
 	$teamStrengths = array();
 	$teamResistantTo = array();
 	$teamVulnerabilities = array();
 	$teamInvulnerabilities = array();
 	$teamIneffectives = array();
+
+	//array for overall result to send back
+	$result = array();
 
 	foreach($teamPokes as $poke) {
 
@@ -149,7 +156,14 @@ function teamAnalyze($request, $conn) {
 		next($teamIneffectives);
 	}
 
+	$result["strengths"] = $teamStrengths;
+	$result["weaknesses"] = $teamWeaknesses;
+	$result["resistances"] = $teamResistantTo;
+	$result["vulnerabilities"] = $teamVulnerabilities;
+	$result["invulnerabilities"] = $teamInvulnerabilities;
+	$result["noeffects"] = $teamIneffectives;
 
+	return $result;
 
 }
 
@@ -168,5 +182,5 @@ array_push($pokemon, "bulbasaur");
 $team["pokemon"] = $pokemon;
 var_dump($team);
 
-teamAnalyze($team, $conn);
+var_dump(teamAnalyze($team, $conn));
 ?>

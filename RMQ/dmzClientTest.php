@@ -19,8 +19,9 @@ $client = new rabbitMQClient("../include/queryServer.ini","queryServer");
 //$request["type"] = "userCaught";
 //$request["type"] = "addCaught";
 //$request["type"] = "editPoke";
+$request["type"] = "teamAnalyze";
 //should be using:
-$request["type"] = $_POST["type"];
+//$request["type"] = $_POST["type"];
 
 switch($request["type"]) {
 	case "pokeSearch":
@@ -158,12 +159,20 @@ switch($request["type"]) {
 
 		//returns true or false on successful/failed insert
 		break;
+	case "teamAnalyze":
+		$pokemon = array();
+		array_push($pokemon, "rattata");
+		array_push($pokemon, "charmander");
+		array_push($pokemon, "bulbasaur");
+		$request["type"] = "teamAnalyze";
+		$request["pokemon"] = $pokemon;
+		break;
 	default:
 		logger( __FILE__ . " : " . __LINE__ . " :error: " . "Bad Query Type");
 		echo "ERROR: BAD QUERY TYPE";
 		break;
 }
-
+var_dump($request);
 $response = $client->send_request($request);
 echo $response;
 /*
