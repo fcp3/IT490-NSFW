@@ -307,8 +307,9 @@ function addCaught($request, $conn) {
 
 function teamAnalyze($request, $conn) {
 	echo "running team analyzer\n";
+	var_dump($request);
 	$teamPokes = $request["pokemon"];
-
+	//echo $teamPokes;
 	//array for holding types of each pokemon in team
 	$teamTypes = array();
 

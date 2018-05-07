@@ -83,10 +83,13 @@
         datatype: 'json',
         data:{type:type, acctID:acctID},
         success: function(data) {
+          //console.log(data);
           var response = JSON.parse(data);
+          //console.log(response);
           for(var i in response) {
-            console.log(response[i]);
+            //console.log(response[i]);
             var div = document.createElement("div");
+            
             div.setAttribute("id", "divteam");
             div.setAttribute("class", "showData");
 
@@ -102,6 +105,12 @@
             header.innerHTML = response[i].name;
             div.appendChild(header);
 
+            //analyze button for team divs
+            var analyzeButton = document.createElement("button");
+            analyzeButton.innerHTML = "Analyze";
+            analyzeButton.setAttribute("id", "analyze");
+            div.appendChild(analyzeButton);
+
             for(var j in response[i]) {
               if(response[i][j][0] == null || response[i][j][0].name == null) {
                 continue;
@@ -109,10 +118,13 @@
               var name = response[i][j][0].name;
               var sprite = response[i][j][0].sprite;
               var innerDiv = document.createElement("div");
-	      innerDiv.setAttribute("id", "innerpoke");
+
+              var innerDivId = "innerpoke";
+              innerDivId = innerDivId + j;
+	            innerDiv.setAttribute("id", innerDivId);
               
-              console.log(name);
-              console.log(sprite);
+              //console.log(name);
+              //console.log(sprite);
               var p = document.createElement("p");
               p.setAttribute("id", "pokemonName");
               p.innerHTML = name;
@@ -136,8 +148,160 @@
         }
       }); 
   });
+
+  //function for clicking the analyze button
+  $(document).on("click", "#analyze", function(e) {
+    var type = "teamAnalyze";
+    //console.log($(this).parent().find("#innerpoke0").attr("id", "pokemonName").get(0).innerText);
+
+    var team = [];
+    
+    //pulling pokemon names from the team being analyzed
+    if($(this).parent().find("#innerpoke0").get(0) != undefined) {
+      var poke0 = $(this).parent().find("#innerpoke0").get(0).innerText.trim();
+      team.push(poke0);
+    }
+    if($(this).parent().find("#innerpoke1").get(0) != undefined) {
+      var poke1 = $(this).parent().find("#innerpoke1").get(0).innerText.trim();
+      team.push(poke1);
+    }
+    if($(this).parent().find("#innerpoke2").get(0) != undefined) {
+      var poke2 = $(this).parent().find("#innerpoke2").get(0).innerText.trim();
+      team.push(poke2);
+    }
+    if($(this).parent().find("#innerpoke3").get(0) != undefined) { 
+      var poke3 = $(this).parent().find("#innerpoke3").get(0).innerText.trim();
+      team.push(poke3);
+    }
+    if($(this).parent().find("#innerpoke4").get(0) != undefined) { 
+      var poke4 = $(this).parent().find("#innerpoke4").get(0).innerText.trim();
+      team.push(poke4);
+    } 
+    if($(this).parent().find("#innerpoke5").get(0) != undefined) { 
+      var poke5 = $(this).parent().find("#innerpoke5").get(0).innerText.trim();
+      team.push(poke5);
+    } 
+    
+    console.log(team);
+
+    //ajax to actually send analyze request to the dmz
+    $.ajax({
+      type: 'POST',
+      url:'../RMQ/dmzClientTest.php',
+      datatype: 'json',
+      data:{type:type, pokemon:team},
+      success: function(data) {
+        //console.log(data);
+        response = JSON.parse(data);
+        //console.log(JSON.stringify(response));
+
+        //getting the different matchup objects from response JSON
+        var responseKeys = Object.keys(response);
+        console.log(responseKeys);
+
+        var report = "TEAM ANALYSIS\n";
+        //creating div to encompass team report
+        var mainDiv = document.createElement("div");
+        mainDiv.setAttribute("id", "teamReport");
+
+        //looping through the different matchups and appending to overall div
+        for(var j in responseKeys) {
+
+          var key = responseKeys[j];
+
+          var header = key.toUpperCase();
+          var matchupReport = header + "\n";
+          //adding header html for each matchup category
+          var headerHTML = document.createElement("h3");
+          headerHTML.innerHTML = header;
+          mainDiv.appendChild(headerHTML);
+
+          var matchupList = document.createElement("UL");
+
+          //switch to choose which text to show
+          switch(key) {
+            case "strengths":
+              var matchup = "strong to ";
+              break;
+            case "weaknesses":
+              var matchup = "weak to ";
+              break;
+            case "resistances":
+              var matchup = "resistant to ";
+              break;
+            case "vulnerabilities":
+              var matchup = "vulnerable to ";
+              break;
+            case "invulnerabilities":
+              var matchup = "invulnerable to ";
+              break;
+            case "noeffects":
+              var matchup = "unaffected by ";
+              break;
+            default:
+              var matchup = "bad matchup";
+              break;
+          }
+          var keyObj = response[key];
+          var keyTypes = Object.keys(keyObj);
+          //console.log(keyObj);
+          //console.log(keyTypes);
+          for(var i in keyTypes) {
+            //console.log(i);
+            //console.log(strengthsArr[i]);
+            var type = keyTypes[i];
+            var val = keyObj[type];
+            var teamSize = team.length;
+            var trueVal = val/teamSize;
+            console.log(trueVal);
+            //console.log(strengthObj[type]);
+            //deciding scale text for severity of matchup
+            if(trueVal <= (1/3)) {
+              var scale = "kinda ";
+            } else if((1/3) < trueVal <= (2/3)) {
+              var scale = "";
+            } else if((2/3) < trueVal <= 1) {
+              var scale = "very ";
+            } else if(trueVal > 1) {
+              var scale = "extremely";
+            }
+
+            //creating the strings for report
+            var result = scale.concat(matchup,  type, "\n");
+            var matchupReport = matchupReport + result;
+            var listElem = document.createElement("LI");
+            listElem.innerHTML = result;
+            matchupList.appendChild(listElem);
+
+          }
+          report = report + matchupReport;
+          mainDiv.appendChild(matchupList);
+        }
+        //alert(report);
+        console.log(mainDiv);
+        newWindow(mainDiv);
+        //$("#teamReport").popup('show');
+        
+        //console.log(Object.keys(strengths));
+        
+
+        //alert(JSON.stringify(response));
+        //console.log(response);
+      },
+      error: function(data) {
+        console.log(data);
+      }
+    });
+  });
 </script>
 <script>
+//creates new window with matchup data
+function newWindow(html) {
+  var win = window.open();
+  var content = "";
+  console.log(html);
+  $(win.document.body).html(html);
+}
 function del_cookie(name) {
     document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
     document.cookie = 'userID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
