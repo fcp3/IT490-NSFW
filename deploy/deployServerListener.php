@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
-require_once('include/path.inc');
-require_once('include/get_host_info.inc');
-require_once('include/rabbitMQLib.inc');
+require_once('../include/path.inc');
+require_once('../include/get_host_info.inc');
+require_once('../include/rabbitMQLib.inc');
 //require_once('include/logServer.php');
 //include the deployServer functions file when it's made
 
