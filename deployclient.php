@@ -6,7 +6,7 @@ require_once('include/rabbitMQLib.inc');
 require_once('include/logger.inc');
 
 
-$client = new rabbitMQClient("deploy.ini", "testserver");
+$client = new rabbitMQClient("deploy/deploy.ini", "testserver");
 
 function createPkg($argv){
 
@@ -15,8 +15,8 @@ function createPkg($argv){
 	$pkgName = $argv[2];
 	
 	var_dump($argv);
-	$output = shell_exec("sudo tar czf ~/Desktop/testdeploy/$pkgName.tar.gz $path;
-                  scp -P 22 ~/Desktop/testdeploy/$pkgName.tar.gz humza@25.55.23.200:~/Desktop ");
+	$output = shell_exec("sudo tar czf ~/Desktop/$pkgName.tar.gz $path;
+                  scp -P 22 ~/Desktop/$pkgName.tar.gz humza@25.55.23.200:~/Desktop ");
 	
 	var_dump($output);
 	$request["type"] = "createPkg";
@@ -30,13 +30,12 @@ function createPkg($argv){
 
 function validatePkg($argv){
 
-	$hostname = gethostname();
+	$hostname = $argv[3];
 	$pkgName = $argv[2];
 
 	$request["type"] = "validatePkg";
 	$request["host"] = $hostname;
 	$request["pkgName"] = $pkgName;
-
 	return $request;
 
 }
@@ -48,15 +47,15 @@ switch($argv[1]) {
 		$request = createPkg($argv);
 		break;
 	case 'validatePkg':
-		
-		$request = validatePkg();
+		$request = validatePkg($argv);
 		break;
 	default:
 		echo "BAD ARGUMENT";
 		$request = "bad type";
 }
-
+echo "Sending request:" . PHP_EOL;
+var_dump($request);
 $response = $client->send_request($request);
-echo $response;
+var_dump($response);
 
 ?>

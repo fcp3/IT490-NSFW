@@ -64,7 +64,7 @@ function requestProcessor($request) {
   return array("returnCode" => '0', 'message'=>"ERROR: Type is not supported");
 }
 
-$server = new rabbitMQServer("include/deploy.ini", "testserver");
+$server = new rabbitMQServer("deploy/deploy.ini", "testserver");
 var_dump ($server);
 $server->process_requests('requestProcessor');
 exit();

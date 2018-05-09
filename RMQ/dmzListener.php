@@ -475,7 +475,7 @@ function bestPoke($request, $conn) {
 	$stat = $request["pokeStat"][0];
 	$topPokes = array();
 
-	if ($query = mysqli_prepare($conn, "SELECT Name, sprite, attack, defense, sp_att, sp_def, speed, hp FROM Pokemon WHERE type_1 = ? OR type_2 = ? ORDER BY ? DESC LIMIT 10")) {
+	if ($query = mysqli_prepare($conn, "SELECT Name, sprite, attack, defense, sp_att, sp_def, speed, hp FROM Pokemon WHERE type_1 = ? OR type_2 = ? ORDER BY ? DESC LIMIT 5")) {
 		$query->bind_param("sss", $type, $type, $stat);
 		$query->execute();
 		$queryResult = $query->get_result();
