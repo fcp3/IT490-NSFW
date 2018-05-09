@@ -471,17 +471,40 @@ function teamAnalyze($request, $conn) {
 //function to find top 10 best pokemon based on given type and stat to look for
 function bestPoke($request, $conn) {
 	echo "Finding best pokemon...\n";
-	$type = $request["pokeType"];
-	$stat = $request["pokeType"];
+	$type = $request["pokeType"][0];
+	$stat = $request["pokeStat"][0];
 	$topPokes = array();
 
-	if ($query = mysqli_prepare($conn, "SELECT Name, sprite FROM Pokemon WHERE type_1 = ? OR type_2 = ? ORDER BY ? DESC LIMIT 10")) {
+	if ($query = mysqli_prepare($conn, "SELECT Name, sprite, attack, defense, sp_att, sp_def, speed, hp FROM Pokemon WHERE type_1 = ? OR type_2 = ? ORDER BY ? DESC LIMIT 10")) {
 		$query->bind_param("sss", $type, $type, $stat);
 		$query->execute();
 		$queryResult = $query->get_result();
 		while($data = $queryResult->fetch_assoc()) {
 			$poke["name"] = $data["Name"];
 			$poke["sprite"] = $data["sprite"];
+			
+			switch($stat) {
+				case 'attack':
+					$poke["stat"] = $data["attack"];
+					break;
+				case 'defense':
+					$poke["stat"] = $data["defense"];
+					break;
+				case 'sp_att':
+					$poke["stat"] = $data["sp_att"];
+					break;
+				case 'sp_def':
+					$poke["stat"] = $data["sp_def"];
+					break;
+				case 'speed':
+					$poke["stat"] = $data["speed"];
+					break;
+				case 'hp':
+					$poke["stat"] = $data["hp"];
+					break;
+				default:
+					echo "error\n";
+			}
 			array_push($topPokes, $poke);
 		}
 	}

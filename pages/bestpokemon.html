@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PokeTeams</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+  <link href="multiple-select/multiple-select.css" rel="stylesheet"/>
+  <!
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  ->
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <a href="home.html">Home</a>
+    <a href="teams.html" id="userTeam">Teams</a>
+    <a href="search.html">Search</a>
+    <a href="mypokemon.html" id="userPoke"> My PokeMon</a>
+    <a href="about.html">About</a>
+    <button class="logout" id="logout">Logout</button>
+  </div>
+
+  <section id="home">
+    <div class="header">
+      <br><br>
+      <h1>PokeTeams</h1>
+      <h2>Plan, strategize, and win your Pokemon battles!</h2>
+      <h4>An IT490 Project - Team NSFW</h4>
+    </div>
+    <div class="header2">
+      <br><br><br>
+      <p>Create teams for any Pokemon games. Save your teams and share them
+        with your friends!
+      </p>
+      <p>Check what your team is strong/weak against with our
+      team tips.
+      </p>
+    </div>
+  </section>
+
+  <div class="selecttext">
+    <h1>Find Best Pokemon</h1>
+  </div>
+  <section id="searchselector">
+    <div class="searchfilter">
+
+      <form>
+
+        <label>Pick a Type:</label>
+        <select multiple="multiple" id="type" name="type">
+          <option value="normal">Normal</option>
+          <option value="fire">Fire</option>
+          <option value="fighting">Fighting</option>
+          <option value="water">Water</option>
+          <option value="flying">Flying</option>
+          <option value="grass">Grass</option>
+          <option value="poison">Poison</option>
+          <option value="electric">Electric</option>
+          <option value="ground">Ground</option>
+          <option value="psychic">Psychic</option>
+          <option value="rock">Rock</option>
+          <option value="ice">Ice</option>
+          <option value="bug">Bug</option>
+          <option value="dragon">Dragon</option>
+          <option value="ghost">Ghost</option>
+          <option value="dark">Dark</option>
+          <option value="steel">Steel</option>
+          <option value="fairy">Fairy</option>
+        </select>
+
+        <label>Which stat are you looking for?:</label>
+        <select multiple="multiple" id="stat" name="stat">
+          <option value="attack" selected="selected">Attack</option>
+          <option value="defense">Defense</option>
+          <option value="sp_att">Special Attack</option>
+          <option value="sp_def">Special Defense</option>
+          <option value="speed">Speed</option>
+          <option value="hp">HP</option>
+        </select>
+
+       
+        
+        <div id="submitdiv">
+          <input id="submit" type="submit" value="pokeSearch" name="type" onclick="clearBox('searchData')">
+        </div>
+        <script>
+    function clearBox(elementID) {
+      document.getElementById("searchData").innerHTML = "";
+    }
+  </script>
+      </form>
+      
+    </div>
+
+    <div id="searchData" class="showData"></div>
+  </section>
+
+  <footer id="footer">
+  </footer>
+</body>
+</html>
+<script>
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookies = decodedCookie.split(';');
+    for(var i in cookies) {
+      var cookie = cookies[i];
+      while(cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+
+  $('#userPoke').text(getCookie("userID") + "'s PokeMon");
+  $('#userTeam').text(getCookie("userID") + "'s Teams");
+
+  $('#submit').on('click', function(e){
+      e.preventDefault();
+      var pokeType = $('#type').val();
+      var pokeStat = $('#stat').val();
+      var type = "bestPoke";
+      console.log(type);
+      console.log(pokeStat);
+      console.log(pokeType)
+      $.ajax({
+        type:'POST',
+        url:'../RMQ/dmzClientTest.php',
+        datatype: 'json',
+        data:{type:type, pokeType:pokeType, pokeStat:pokeStat},
+        success: function(data){
+          var response;
+          response = JSON.parse(data);
+          console.log(response);
+          if(response.length < 1) {
+            var empty = document.createElement("h1");
+              empty.innerHTML = "Pokemon Could Not Be Found! Search Again!";
+            $('#searchData').append(empty);
+          }
+          for(var i in response) {
+            var id = response[i].name;
+            var sprite = response[i].sprite;
+            var stat = response[i].stat;
+           
+            var div = document.createElement("div");
+            div.setAttribute("id", "pokemon");
+            div.setAttribute("class", "pokeimg");
+
+            var name = document.createElement("h2");
+            name.setAttribute("id", "pokename");
+            name.innerHTML = id;
+            div.appendChild(name);
+            var resStat = document.createElement("h3");
+            resStat.setAttribute("id", "pokestat");
+            resStat.innerHTML = "Base Value: " + stat;
+            div.appendChild(resStat);
+
+            var img = document.createElement("img");
+            img.setAttribute('id', "pokesprite");
+            img.setAttribute('src', sprite);
+            div.appendChild(img);
+  
+
+            
+  
+            $('#searchData').append(div);
+          }     
+        },
+        error: function(jqxhr, textStatus, exception) {
+          console.log(exception);
+          console.log(textStatus);
+          console.log(jqxhr);
+          alert('Exception:', exception);
+        }
+      });
+    });
+
+  
+</script>
+<script>
+function del_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'userID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'acctID=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    document.cookie = 'email=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+
+    console.log(getCookie('userID'));
+    console.log(getCookie('acctID'));
+    console.log(getCookie('email'));
+
+    window.location.replace("../index.html");
+
+}
+</script>
