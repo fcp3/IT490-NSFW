@@ -50,6 +50,7 @@ function requestProcessor($request) {
   
 
   switch ($request['type']) {
+    case "rollback":
     case "sendPkg":
       return recievePkg($request);
       break;
