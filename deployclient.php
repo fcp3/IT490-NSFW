@@ -6,7 +6,7 @@ require_once('include/rabbitMQLib.inc');
 require_once('include/logger.inc');
 
 
-$client = new rabbitMQClient("deploy.ini", "testServer");
+$client = new rabbitMQClient("deploy.ini", "testserver");
 
 function createPkg($argv){
 

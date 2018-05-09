@@ -8,25 +8,25 @@ require_once('include/rabbitMQLib.inc');
 
 function recievePkg($request) {
 
-	$pkgName = $request["pkgName"];
-	$path = $request["path"];
+  $pkgName = $request["pkgName"];
+  $path = $request["path"];
+  $pure = substr($pkgName, 0, -3);
 
-  $out1 = shell_exec("sudo rm -rf /var/www/IT490-NSFW/$pkgName ");
+  $out1 = shell_exec("sudo mv -v /var/www/IT490-NSFW/$pure/* ~/Desktop/IT490temp/ ");
   $out2 = shell_exec("cd ~/ ;
-                sudo mkdir /var/www/IT490-NSFW/$pkgName;
-                sudo tar -xvf $pkgName.tar.gz --strip-components=1 -C /var/www/IT490-NSFW/$pkgName ");
+                      sudo tar -xvf $pkgName.tar.gz -C /var/www/IT490-NSFW ");
 
   var_dump($out1);
   var_dump($out2);
   
-	
+  
 }
 function rollbackPkg($request) {
 
   $pkgName = $request["pkgName"];
   $path = $request["path"];
 
-  $out1 = shell_exec("sudo rm -rf /var/www/IT490-NSFW/$pkgName ");
+  $out1 = shell_exec("sudo mv -v /var/www/IT490-NSFW/$pure/* ~/Desktop/IT490temp/ ");
   $out2 = shell_exec("cd ~/ ;
                 sudo mkdir /var/www/IT490-NSFW/$pkgName;
                 sudo tar -xvf $pkgName.tar.gz --strip-components=1 -C /var/www/IT490-NSFW/$pkgName ");
@@ -38,7 +38,7 @@ function rollbackPkg($request) {
 }
 
 function validatePkg($request) {
-	
+  
 }
 
 function requestProcessor($request) {
@@ -60,7 +60,7 @@ function requestProcessor($request) {
   return array("returnCode" => '0', 'message'=>"ERROR: Type is not supported");
 }
 
-$server = new rabbitMQServer("deploy.ini", "testServer");
+$server = new rabbitMQServer("include/deploy.ini", "testserver");
 var_dump ($server);
 $server->process_requests('requestProcessor');
 exit();
