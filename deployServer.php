@@ -15,10 +15,10 @@ function sendPkg($argv){
 	$user = $argv[4];
 	$hip = $argv[5];
 	$vid = $argv[6];
+	$pure = substr($pkgName, 0, -3);
 
 	var_dump($argv);
-	$output = shell_exec("sudo tar czf ~/Desktop/Test/$pkgName.tar.gz $path;
-                  scp -P 22 ~/Desktop/Test/$pkgName.tar.gz $user@$hip:~/ ");
+	$output = shell_exec("scp -P 22 ~/Desktop/$pkgName.tar.gz $user@$hip:~/ ");
 
 	$conn = mysqli_connect("localhost", "root", "1234", "deployServer");
  	if(!$conn) {
@@ -30,7 +30,7 @@ function sendPkg($argv){
 
 	var_dump($output);
 	$request["type"] = "sendPkg";
-    	$request["pkgName"] = $pkgName;
+    	$request["pkgName"] = $pure;
     	$request["path"] = $path;
 
     return $request;
