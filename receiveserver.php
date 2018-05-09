@@ -25,11 +25,11 @@ function rollbackPkg($request) {
 
   $pkgName = $request["pkgName"];
   $path = $request["path"];
+  $pure = substr($pkgName, 0, -3);
 
   $out1 = shell_exec("sudo mv -v /var/www/IT490-NSFW/$pure/* ~/Desktop/IT490temp/ ");
   $out2 = shell_exec("cd ~/ ;
-                sudo mkdir /var/www/IT490-NSFW/$pkgName;
-                sudo tar -xvf $pkgName.tar.gz --strip-components=1 -C /var/www/IT490-NSFW/$pkgName ");
+                      sudo tar -xvf $pkgName.tar.gz -C /var/www/IT490-NSFW ");
 
   var_dump($out1);
   var_dump($out2);
@@ -52,6 +52,9 @@ function requestProcessor($request) {
   switch ($request['type']) {
     case "sendPkg":
       return recievePkg($request);
+      break;
+    case "rollback":
+      return rollbackPkg($request);
       break;
     default:
       echo "ERROR: BAD QUERY TYPE\n";
