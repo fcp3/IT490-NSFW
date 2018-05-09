@@ -468,6 +468,28 @@ function teamAnalyze($request, $conn) {
 
 }
 
+//function to find top 10 best pokemon based on given type and stat to look for
+function bestPoke($request, $conn) {
+	echo "Finding best pokemon...\n";
+	$type = $request["pokeType"];
+	$stat = $request["pokeType"];
+	$topPokes = array();
+
+	if ($query = mysqli_prepare($conn, "SELECT Name, sprite FROM Pokemon WHERE type_1 = ? OR type_2 = ? ORDER BY ? DESC LIMIT 10")) {
+		$query->bind_param("sss", $type, $type, $stat);
+		$query->execute();
+		$queryResult = $query->get_result();
+		while($data = $queryResult->fetch_assoc()) {
+			$poke["name"] = $data["Name"];
+			$poke["sprite"] = $data["sprite"];
+			array_push($topPokes, $poke);
+		}
+	}
+	$query->close();
+	var_dump($topPokes);
+	return $topPokes;
+}
+
 function requestProcessor($request) {
 
 	echo "Found request!" . PHP_EOL;
@@ -510,6 +532,9 @@ function requestProcessor($request) {
 			break;
 		case "teamAnalyze":
 			$result = json_encode(teamAnalyze($request, $conn));
+			break;
+		case "bestPoke":
+			$result = json_encode(bestPoke($request, $conn));
 			break;
 		default:
 			echo "ERROR: BAD QUERY TYPE\n";
