@@ -63,6 +63,7 @@ function validatePkg(){
 }
 
 switch($argv[1]) {
+	case 'rollback':
 	case 'sendPkg':
 		$request = sendPkg($argv);
 		break;
