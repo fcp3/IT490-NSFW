@@ -28,10 +28,10 @@ function createPkg($argv){
 
 }
 
-function validatePkg(){
+function validatePkg($argv){
 
 	$hostname = gethostname();
-	$pkgName = $argv[1];
+	$pkgName = $argv[2];
 
 	$request["type"] = "validatePkg";
 	$request["host"] = $hostname;
