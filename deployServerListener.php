@@ -11,11 +11,15 @@ function createPkg($request, $conn) {
 	$pkgName = $request["pkgName"];
 	$desc = $request["desc"];
 	$path = $request["path"];
-	$ver = 1.0;
+	$verIdStr = substr($pkgName, -3);
+        $verIdStr[1] = ".";
+        $verIdFloat = floatval($verIdStr);
+        var_dump($verIdFloat);
+
 	$valid = 0;
 
 	if($query = mysqli_prepare($conn, "INSERT INTO packages (package, description, version, validated, path) VALUES (?, ?, ?, ?, ?)")) {
-		$query->bind_param("ssdis", $pkgName, $desc, $ver, $valid, $path);
+		$query->bind_param("ssdis", $pkgName, $desc, $verIdFloat, $valid, $path);
 		$query->execute();
 		echo "INSERTED INTO packages DB  " .PHP_EOL;
                 echo "ROWS AFFECTED: " . $query->affected_rows . PHP_EOL;
